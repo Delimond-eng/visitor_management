@@ -2,250 +2,252 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\FormationNotify;
-use App\Models\Candidate;
-use App\Models\FormationCandidate;
-use App\Models\FormationPaiement;
-use App\Models\Formulaire;
+use App\Models\Visit;
+use App\Models\VisitHistory;
+use App\Models\Visitor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Vtiful\Kernel\Format;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AppController extends Controller
 {
+    // ===============================
+    // VISITOR CRUD
+    // ===============================
 
     /**
-     * Creation d'un nouveau candidat
-     * @author Gaston delimond
-     * @DateTime 05/03/2024
+     * Create a new visitor entry.
+     *
      * @param Request $request
      * @return JsonResponse
-    */
-
-    public function createCandidate(Request $request):JsonResponse
+     */
+    public function createVisitor(Request $request): JsonResponse
     {
-        try {
-            $data = $request->validate([
-                'nom' => 'required|string',
-                'postnom' => 'required|string',
-                'prenom' => 'required|string',
-                'email' => 'required|string|unique:candidat,email',
-                'telephone' => 'required|string',
-                'adresse' => 'required|string',
-                'diplome' => 'required|string',
-                'domaine' => 'required|string',
-                'description' => 'required|string',
-                'profile' => 'required|image|mimes:jpeg,png,jpg',
-                'cv' => 'required|file|mimes:jpeg,jpg,png,pdf',
-            ]);
-            $protocol = $request->secure() ? 'https://' : 'http://';
-            $domain = $request->getHttpHost();
-
-            //Store file to directory
-            if($request->hasFile('profile')){
-                $image = $request->file('profile');
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/profiles'), $imageName);
-                $data["profile"]=$protocol .$domain.'/uploads/profiles/' . $imageName;
-            }
-            if($request->hasFile("cv")){
-                $cv = $request->file('cv');
-                $cvName = time(). '.'.$cv->getClientOriginalExtension();
-                $cv->move(public_path('uploads/cv'), $cvName);
-                if($cv->getClientOriginalExtension() == "pdf"){
-                    $data['cv']= $protocol .$domain.'/uploads/cv/'.$cvName;
-                }else{
-                    $data['cv']= null;
-                }
-
-                if($cv->getClientOriginalExtension() != "pdf"){
-                    $data['image'] = $protocol .$domain.'/uploads/cv/'. $cvName;
-                }
-                else{
-                    $data['image'] = null;
-                }
-            }
-
-            $result = Candidate::create([
-                'nom' => $data['nom'],
-                'postnom' => $data['postnom'],
-                'prenom' => $data['prenom'],
-                'email' => $data['email'],
-                'telephone' => $data['telephone'],
-                'adresse' => $data['adresse'],
-                'diplome' => $data['diplome'],
-                'domaine' => $data['domaine'],
-                'description' => $data['description'],
-                'profil' => $data['profile'],
-                'cv' => $data['cv'],
-                'image' => $data['image'],
-            ]);
-
-            return response()->json([
-                "status"=>"success",
-                "candidate"=>$result
-            ]);
-        }
-        catch (\Illuminate\Validation\ValidationException $e){
-            $errors = $e->validator->errors()->all();
-            return response()->json(['errors' => $errors ]);
-        }
-        catch (\Illuminate\Database\QueryException $e){
-            return response()->json(['errors' => $e->getMessage() ]);
-        }
-    }
-
-
-    /**
-     * Recuperation de la liste de tous les candidats
-     * @author Gaston delimond
-     * @DateTime 04/03/2024
-     * @return JsonResponse
-    */
-    public function viewAllCandidates():JsonResponse
-    {
-        $candidates = Candidate::select("candidat_id", "nom", "postnom", "prenom", "email", "telephone", "adresse", "diplome", "description", "domaine")
-            ->where("statut", "actif")
-            ->orderByDesc('candidat_id')
-            ->distinct('email')
-            ->get();
-        return response()->json([
-            "status" => "success",
-            "candidats"=>$candidates
+        $validator = Validator::make($request->all(), [
+            'full_name' => 'required|string|max:255',
+            'company_or_address' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:50',
+            'email_address' => 'nullable|email',
+            'id_proof_type' => 'nullable|string|max:100',
+            'id_proof_number' => 'nullable|string|max:100',
+            'vehicle_number' => 'nullable|string|max:100'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $visitor = Visitor::create($request->all());
+        return response()->json($visitor);
     }
 
-
     /**
-     * Recuperation du profil du candidat (single)
+     * Update an existing visitor.
+     *
+     * @param Request $request
      * @param int $id
      * @return JsonResponse
-     * @author Gaston delimond
-     * @DateTime 04/03/2024
      */
-    public function viewCandidateProfil(int $id) :JsonResponse
+    public function updateVisitor(Request $request, $id): JsonResponse
     {
-        $candidate = Candidate::where('candidat_id', $id)->first();
-        return response()->json([
-            "status" => "success",
-            "candidat"=>$candidate
+        $visitor = Visitor::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'full_name' => 'sometimes|required|string|max:255',
+            'company_or_address' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:50',
+            'email_address' => 'nullable|email',
+            'id_proof_type' => 'nullable|string|max:100',
+            'id_proof_number' => 'nullable|string|max:100',
+            'vehicle_number' => 'nullable|string|max:100'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $visitor->update($request->all());
+        return response()->json($visitor);
     }
 
     /**
-     * *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function createFormationCandidates(Request $request) : JsonResponse{
-        try{
-            $data = $request->validate([
-                "nom"=>"required|string",
-                "prenom"=>"required|string",
-                "telephone"=>"required|string|min:10|unique:formation_candidates,telephone",
-                "current_job"=>"nullable|string",
-                "email"=>"nullable|email|unique:formation_candidates,email",
-                "adresse"=>"nullable|string",
-                "hobbie"=>"nullable|string",
-                "ville"=>"required|string"
-            ]);
-            $data['code'] = FormationCandidate::generateUniqueCode();
-            $currentCandidate = FormationCandidate::create($data);
-            if(isset($currentCandidate)){
-                try {
-                    if ($currentCandidate->email) {
-                        Mail::to($currentCandidate->email)->send(new FormationNotify($currentCandidate));
-                    }
-                } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                    return response()->json([
-                        "status"=> "error",
-                        "message"=> $e->getMessage()
-                    ]);
-                }
-                return response()->json([
-                    "status"=>"success",
-                    "formation_candidate"=>$currentCandidate
-                ]);
-            }
-            else{
-                return response()->json(['errors' => "Echec d'enregistrement de votre candidature !" ]);
-            }
-        }
-        catch (\Illuminate\Validation\ValidationException $e){
-            $errors = $e->validator->errors()->all();
-            return response()->json(['errors' => $errors ]);
-        }
-        catch (\Illuminate\Database\QueryException $e){
-            return response()->json(['errors' => $e->getMessage() ]);
-        }
-    }
-
-    public function viewAllFormationCandidates() : JsonResponse{
-        $datas = FormationCandidate::with('paiement')
-        ->whereNot('status','deleted')
-        ->orderBy('id','desc')->get();
-        return response()->json([
-            'status'=> 'success',
-            'formation_candidates'=> $datas
-        ]);
-    }
-    /**
-     * Summary of deleteFormationCandidate
+     * Delete a visitor by ID.
+     *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function deleteFormationCandidate(int $id): JsonResponse
+    public function deleteVisitor($id): JsonResponse
     {
-        $candidate = FormationCandidate::findOrFail( $id );
-        if ($candidate) {
-            $candidate->status = 'deleted';
-            $candidate->save();
-        }
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Candidat supprimé avec succès !'
-        ]);
+        Visitor::findOrFail($id)->delete();
+        return response()->json(['message' => 'Visiteur supprimé']);
     }
 
-    public function savePaymentForFormationCandidate( Request $request) : JsonResponse{
-        try{
-            $data = $request->validate([
-                "candidate_code"=>'required|string|exists:formation_candidates,code',
-                "amount"=>"required|numeric",
-                "mode"=>"nullable|string",
-                "devise"=>"required|string"
-            ]);
-
-            $paieResult = FormationPaiement::updateOrCreate(
-                [
-                    "candidate_code"=>$data["candidate_code"]
-                ]
-            ,$data);
-            if ($paieResult) {
-                return response()->json([
-                    "status"=> "success",
-                    "result"=>$paieResult
-                ]);
-            }
-            else{
-                return response()->json([
-                    "errors"=>"Echec de traitement de ce paiement"
-                ]);
-            }
-        }catch (\Illuminate\Validation\ValidationException $e){
-            $errors = $e->validator->errors()->all();
-            return response()->json(['errors' => $errors ]);
-        }
-        catch (\Illuminate\Database\QueryException $e){
-            return response()->json(['errors' => $e->getMessage() ]);
-        }
+    /**
+     * List all visitors.
+     *
+     * @return JsonResponse
+     */
+    public function listVisitors(): JsonResponse
+    {
+        return response()->json(Visitor::all());
     }
 
-    public function viewFormulairesCandidates() : JsonResponse{ 
-        $datas = Formulaire::orderBy('id','DESC')->get();
-        return response()->json([
-            "formulaires"=>$datas
+
+
+    // ===============================
+    // VISIT CRUD
+    // ===============================
+
+    /**
+     * Create a new visit entry.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createVisit(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'visitor_id' => 'required|exists:visitors,id',
+            'purpose' => 'required|string|max:255',
+            'visit_date' => 'required|date',
+            'time_in' => 'required|date_format:H:i',
+            'time_out' => 'nullable|date_format:H:i',
+            'stay_time' => 'nullable|string|max:50',
+            'entry_authorized_by' => 'nullable|string|max:255',
+            'pass_number' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
+            'remarks' => 'nullable|string|max:500',
+            'picture_url' => 'nullable|string|max:255',
+            'updated_by' => 'nullable|string|max:255',
+            'update_timestamp' => 'nullable|date'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $visit = Visit::create($request->all());
+        return response()->json($visit);
+    }
+
+
+
+
+    /**
+     * Update a visit and store history of changes.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function updateVisit(Request $request, int $id): JsonResponse
+    {
+        $visit = Visit::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'purpose' => 'sometimes|required|string|max:255',
+            'time_in' => 'sometimes|date_format:H:i',
+            'time_out' => 'sometimes|date_format:H:i',
+            'stay_time' => 'nullable|string|max:50',
+            'entry_authorized_by' => 'nullable|string|max:255',
+            'pass_number' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
+            'remarks' => 'nullable|string|max:500',
+            'picture_url' => 'nullable|string|max:255',
+            'updated_by' => 'nullable|string|max:255',
+            'update_timestamp' => 'nullable|date'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $old = $visit->getOriginal();
+        $visit->update($request->all());
+
+        VisitHistory::create([
+            'visit_id' => $visit->id,
+            'updated_by' => Auth::user()->id ?? 'system',
+            'update_timestamp' => now(),
+            'changes' => array_diff_assoc($visit->getAttributes(), $old),
+        ]);
+
+        return response()->json($visit);
+    }
+
+    /**
+     * Delete a visit by ID.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function deleteVisit(int $id): JsonResponse
+    {
+        Visit::findOrFail($id)->delete();
+        return response()->json(['message' => 'Visite supprimée']);
+    }
+
+    /**
+     * List all visits with related visitor data.
+     *
+     * @return JsonResponse
+     */
+    public function listVisits(): JsonResponse
+    {
+        return response()->json(Visit::with('visitor')->get());
+    }
+
+
+
+
+    // ===============================
+    // AFFICHAGES SPÉCIFIQUES
+    // ===============================
+
+    /**
+     * Get all visits on a specific date.
+     *
+     * @param string $date
+     * @return JsonResponse
+     */
+    public function dailyEntries(string $date): JsonResponse
+    {
+        return response()->json(
+            Visit::with('visitor')
+                ->whereDate('visit_date', $date)
+                ->orderBy('time_in')
+                ->get()
+        );
+    }
+
+    /**
+     * Get all visits for a specific visitor.
+     *
+     * @param int $visitorId
+     * @return JsonResponse
+     */
+    public function entriesByVisitor(int $visitorId): JsonResponse
+    {
+        return response()->json(
+            Visit::with('visitor')
+                ->where('visitor_id', $visitorId)
+                ->get()
+        );
+    }
+
+    /**
+     * Get history logs of a specific visit.
+     *
+     * @param int $visitId
+     * @return JsonResponse
+     */
+    public function visitHistories($visitId): JsonResponse
+    {
+        return response()->json(
+            VisitHistory::where('visit_id', $visitId)
+                ->orderByDesc('update_timestamp')
+                ->get()
+        );
     }
 }

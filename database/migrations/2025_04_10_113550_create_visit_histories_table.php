@@ -8,13 +8,18 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * suivi des modifications des visites
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('candidates', function (Blueprint $table) {
+        Schema::create('visit_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('visit_id');
+            $table->string('updated_by');
+            $table->timestamp('update_timestamp');
+            $table->json('changes');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('candidates');
+        Schema::dropIfExists('visit_histories');
     }
 };

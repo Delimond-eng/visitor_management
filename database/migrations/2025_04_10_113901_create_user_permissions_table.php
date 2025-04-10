@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('formulaires', function (Blueprint $table) {
+        Schema::create('user_permissions', function (Blueprint $table) {
             $table->id();
-            $table->string("securite")->default("Oui");
-            $table->string("nom");
-            $table->string("prenom");
-            $table->string("email");
-            $table->string("telephone");
-            $table->string("about");
-            $table->string("niveau");
+            $table->unsignedBigInteger('user_id');
+            $table->enum('permission_type', ['Update', 'Delete', 'Export']);
+            $table->boolean('enabled')->default(false);
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formulaires');
+        Schema::dropIfExists('user_permissions');
     }
 };
