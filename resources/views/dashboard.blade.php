@@ -1,749 +1,259 @@
-@extends("layouts.admin")
+    @extends("layouts.admin")
 
-@section("content")
-<div class="body-wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-5">
-                <!-- -------------------------------------------- -->
-                <!-- Welcome Card -->
-                <!-- -------------------------------------------- -->
-                <div class="card text-bg-primary">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <div class="d-flex flex-column h-100">
-                                    <div class="hstack gap-3">
-                                        <span
-                                            class="d-flex align-items-center justify-content-center round-48 bg-white rounded flex-shrink-0">
-                                            <iconify-icon icon="solar:course-up-outline" class="fs-7 text-muted"></iconify-icon>
-                                        </span>
-                                        <h5 class="text-white fs-6 mb-0 text-nowrap">Welcome Back
-                                            <br />David
-                                        </h5>
-                                    </div>
-                                    <div class="mt-4 mt-sm-auto">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <span class="opacity-75">Budget</span>
-                                                <h4 class="mb-0 text-white mt-1 text-nowrap fs-13 fw-bolder">
-                                                    $98,450</h4>
-                                            </div>
-                                            <div class="col-6 border-start border-light" style="--bs-border-opacity: .15;">
-                                                <span class="opacity-75">Expense</span>
-                                                <h4 class="mb-0 text-white mt-1 text-nowrap fs-13 fw-bolder">
-                                                    $2,440</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-5 text-center text-md-end">
-                                <img src="assets/images/backgrounds/welcome-bg.png" alt="welcome" class="img-fluid mb-n7 mt-2"
-                                    width="180" />
-                            </div>
+    @section("content")
+    <div class="page-title-box">
+        <div class="container-fluid">
+            <div class="row gap-0">
+                <div class="col-sm-12">
+                    <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center">
+                        <h4 class="page-title mt-3 mt-md-0">Reports</h4>
+                        <div class="">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="#">Materialy</a>
+                                </li><!--end nav-item-->
+                                <li class="breadcrumb-item"><a href="#">Analytics</a>
+                                </li><!--end nav-item-->
+                                <li class="breadcrumb-item active">Reports</li>
+                            </ol>
                         </div>
-
-
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- -------------------------------------------- -->
-                    <!-- Customers -->
-                    <!-- -------------------------------------------- -->
-                    <div class="col-md-6">
-                        <div class="card bg-secondary-subtle overflow-hidden shadow-none">
-                            <div class="card-body p-4">
-                                <span class="text-dark-light">Customers</span>
-                                <div class="hstack gap-6">
-                                    <h5 class="mb-0 fs-7">36,358</h5>
-                                    <span class="fs-11 text-dark-light fw-semibold">-12%</span>
-                                </div>
-                            </div>
-                            <div id="customers"></div>
-                        </div>
-                    </div>
-                    <!-- -------------------------------------------- -->
-                    <!-- Projects -->
-                    <!-- -------------------------------------------- -->
-                    <div class="col-md-6">
-                        <div class="card bg-danger-subtle overflow-hidden shadow-none">
-                            <div class="card-body p-4">
-                                <span class="text-dark-light">Projects</span>
-                                <div class="hstack gap-6 mb-4">
-                                    <h5 class="mb-0 fs-7">78,298</h5>
-                                    <span class="fs-11 text-dark-light fw-semibold">+31.8%</span>
-                                </div>
-                                <div class="mx-n1">
-                                    <div id="projects"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <!-- -------------------------------------------- -->
-                <!-- Revenue Forecast -->
-                <!-- -------------------------------------------- -->
-                <div class="card">
-                    <div class="card-body pb-4">
-                        <div class="d-md-flex align-items-center justify-content-between mb-4">
-                            <div class="hstack align-items-center gap-3">
-                                <span
-                                    class="d-flex align-items-center justify-content-center round-48 bg-primary-subtle rounded flex-shrink-0">
-                                    <iconify-icon icon="solar:layers-linear" class="fs-7 text-primary"></iconify-icon>
-                                </span>
-                                <div>
-                                    <h5 class="card-title">Revenue Forecast</h5>
-                                    <p class="card-subtitle mb-0">Overview of Profit</p>
-                                </div>
-                            </div>
-
-                            <div class="hstack gap-9 mt-4 mt-md-0">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="d-block flex-shrink-0 round-8 bg-primary rounded-circle"></span>
-                                    <span class="text-nowrap text-muted">2024</span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="d-block flex-shrink-0 round-8 bg-danger rounded-circle"></span>
-                                    <span class="text-nowrap text-muted">2023</span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="d-block flex-shrink-0 round-8 bg-secondary rounded-circle"></span>
-                                    <span class="text-nowrap text-muted">2022</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height: 285px;" class="me-n7">
-                            <div id="revenue-forecast"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <!-- -------------------------------------------- -->
-                <!-- Your Performance -->
-                <!-- -------------------------------------------- -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title fw-semibold">Your Performance</h5>
-                        <p class="card-subtitle mb-0 lh-base">Last check on 25 february</p>
-
-                        <div class="row mt-4">
-                            <div class="col-md-6">
-                                <div class="vstack gap-9 mt-2">
-                                    <div class="hstack align-items-center gap-3">
-                                        <div
-                                            class="d-flex align-items-center justify-content-center round-48 rounded bg-primary-subtle flex-shrink-0">
-                                            <iconify-icon icon="solar:shop-2-linear" class="fs-7 text-primary"></iconify-icon>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0 text-nowrap">64 new orders</h6>
-                                            <span>Processing</span>
-                                        </div>
-
-                                    </div>
-                                    <div class="hstack align-items-center gap-3">
-                                        <div
-                                            class="d-flex align-items-center justify-content-center round-48 rounded bg-danger-subtle">
-                                            <iconify-icon icon="solar:filters-outline" class="fs-7 text-danger"></iconify-icon>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">4 orders</h6>
-                                            <span>On hold</span>
-                                        </div>
-
-                                    </div>
-                                    <div class="hstack align-items-center gap-3">
-                                        <div
-                                            class="d-flex align-items-center justify-content-center round-48 rounded bg-secondary-subtle">
-                                            <iconify-icon icon="solar:pills-3-linear" class="fs-7 text-secondary"></iconify-icon>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0">12 orders</h6>
-                                            <span>Delivered</span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="text-center mt-sm-n7">
-                                    <div id="your-preformance"></div>
-                                    <h2 class="fs-8">275</h2>
-                                    <p class="mb-0">
-                                        Learn insigs how to manage all aspects of your
-                                        startup.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="row">
-                    <div class="col-md-6">
-                        <!-- -------------------------------------------- -->
-                        <!-- Customers -->
-                        <!-- -------------------------------------------- -->
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between">
-                                    <div>
-                                        <h5 class="card-title fw-semibold">Customers</h5>
-                                        <p class="card-subtitle mb-0">Last 7 days</p>
-                                    </div>
-                                    <span class="fs-11 text-success fw-semibold lh-lg">+26.5%</span>
-                                </div>
-                                <div class="py-4 my-1">
-                                    <div id="customers-area"></div>
-                                </div>
-                                <div class="d-flex flex-column align-items-center gap-2 w-100 mt-3">
-                                    <div class="d-flex align-items-center gap-2 w-100">
-                                        <span class="d-block flex-shrink-0 round-8 bg-primary rounded-circle"></span>
-                                        <h6 class="fs-3 fw-normal text-muted mb-0">April 07 - April 14</h6>
-                                        <h6 class="fs-3 fw-normal mb-0 ms-auto text-muted">6,380</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2 w-100">
-                                        <span class="d-block flex-shrink-0 round-8 bg-light rounded-circle"></span>
-                                        <h6 class="fs-3 fw-normal text-muted mb-0">Last Week</h6>
-                                        <h6 class="fs-3 fw-normal mb-0 ms-auto text-muted">4,298</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- -------------------------------------------- -->
-                        <!-- Sales Overview -->
-                        <!-- -------------------------------------------- -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title fw-semibold">Sales Overview</h5>
-                                <p class="card-subtitle mb-1">Last 7 days</p>
-
-                                <div class="position-relative labels-chart">
-                                    <span class="fs-11 label-1">0%</span>
-                                    <span class="fs-11 label-2">25%</span>
-                                    <span class="fs-11 label-3">50%</span>
-                                    <span class="fs-11 label-4">75%</span>
-                                    <div id="sales-overview"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-8">
-                <!-- -------------------------------------------- -->
-                <!-- Revenue by Product -->
-                <!-- -------------------------------------------- -->
-                <div class="card mb-lg-0">
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-3 mb-9 justify-content-between align-items-center">
-                            <h5 class="card-title fw-semibold mb-0">Revenue by Product</h5>
-                            <select class="form-select w-auto fw-semibold">
-                                <option value="1">Sep 2024</option>
-                                <option value="2">Oct 2024</option>
-                                <option value="3">Nov 2024</option>
-                            </select>
-                        </div>
-
-                        <div class="table-responsive">
-                            <ul class="nav nav-tabs theme-tab gap-3 flex-nowrap" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#app" role="tab">
-                                        <div class="hstack gap-2">
-                                            <iconify-icon icon="solar:widget-linear" class="fs-4"></iconify-icon>
-                                            <span>App</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#mobile" role="tab">
-                                        <div class="hstack gap-2">
-                                            <iconify-icon icon="solar:smartphone-line-duotone" class="fs-4"></iconify-icon>
-                                            <span>Mobile</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#saas" role="tab">
-                                        <div class="hstack gap-2">
-                                            <iconify-icon icon="solar:calculator-linear" class="fs-4"></iconify-icon>
-                                            <span>SaaS</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#other" role="tab">
-                                        <div class="hstack gap-2">
-                                            <iconify-icon icon="solar:folder-open-outline" class="fs-4"></iconify-icon>
-                                            <span>Others</span>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-content mb-n3">
-                            <div class="tab-pane active" id="app" role="tabpanel">
-                                <div class="table-responsive" data-simplebar>
-                                    <table class="table text-nowrap align-middle table-custom mb-0 last-items-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="fw-normal ps-0">Assigned
-                                                </th>
-                                                <th scope="col" class="fw-normal">Progress</th>
-                                                <th scope="col" class="fw-normal">Priority</th>
-                                                <th scope="col" class="fw-normal">Budget</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-1.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Minecraf App</h6>
-                                                            <span>Jason Roy</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-success-subtle text-success">Low</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-2.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Web App Project</h6>
-                                                            <span>Mathew Flintoff</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-warning-subtle text-warning">Medium</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-3.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Modernize Dashboard</h6>
-                                                            <span>Anil Kumar</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-secondary-subtle text-secondary">Very
-                                                        High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-4.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Dashboard Co</h6>
-                                                            <span>George Cruize</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-danger-subtle text-danger">High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="mobile" role="tabpanel">
-                                <div class="table-responsive" data-simplebar>
-                                    <table class="table text-nowrap align-middle table-custom mb-0 last-items-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="fw-normal ps-0">Assigned
-                                                </th>
-                                                <th scope="col" class="fw-normal">Progress</th>
-                                                <th scope="col" class="fw-normal">Priority</th>
-                                                <th scope="col" class="fw-normal">Budget</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-2.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Web App Project</h6>
-                                                            <span>Mathew Flintoff</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-warning-subtle text-warning">Medium</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-3.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Modernize Dashboard</h6>
-                                                            <span>Anil Kumar</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-secondary-subtle text-secondary">Very
-                                                        High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-1.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Minecraf App</h6>
-                                                            <span>Jason Roy</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-success-subtle text-success">Low</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-4.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Dashboard Co</h6>
-                                                            <span>George Cruize</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-danger-subtle text-danger">High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="saas" role="tabpanel">
-                                <div class="table-responsive" data-simplebar>
-                                    <table class="table text-nowrap align-middle table-custom mb-0 last-items-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="fw-normal ps-0">Assigned
-                                                </th>
-                                                <th scope="col" class="fw-normal">Progress</th>
-                                                <th scope="col" class="fw-normal">Priority</th>
-                                                <th scope="col" class="fw-normal">Budget</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-2.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Web App Project</h6>
-                                                            <span>Mathew Flintoff</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-warning-subtle text-warning">Medium</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-1.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Minecraf App</h6>
-                                                            <span>Jason Roy</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-success-subtle text-success">Low</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-3.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Modernize Dashboard</h6>
-                                                            <span>Anil Kumar</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-secondary-subtle text-secondary">Very
-                                                        High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-4.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Dashboard Co</h6>
-                                                            <span>George Cruize</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-danger-subtle text-danger">High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane" id="other" role="tabpanel">
-                                <div class="table-responsive" data-simplebar>
-                                    <table class="table text-nowrap align-middle table-custom mb-0 last-items-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="fw-normal ps-0">Assigned
-                                                </th>
-                                                <th scope="col" class="fw-normal">Progress</th>
-                                                <th scope="col" class="fw-normal">Priority</th>
-                                                <th scope="col" class="fw-normal">Budget</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-1.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Minecraf App</h6>
-                                                            <span>Jason Roy</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-success-subtle text-success">Low</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-3.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Modernize Dashboard</h6>
-                                                            <span>Anil Kumar</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-secondary-subtle text-secondary">Very
-                                                        High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-2.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Web App Project</h6>
-                                                            <span>Mathew Flintoff</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-warning-subtle text-warning">Medium</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="ps-0">
-                                                    <div class="d-flex align-items-center gap-6">
-                                                        <img src="assets/images/products/dash-prd-4.jpg" alt="prd1" width="48"
-                                                            class="rounded" />
-                                                        <div>
-                                                            <h6 class="mb-0">Dashboard Co</h6>
-                                                            <span>George Cruize</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span>73.2%</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-danger-subtle text-danger">High</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-dark-light">$3.5k</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <!-- -------------------------------------------- -->
-                <!-- Total settlements -->
-                <!-- -------------------------------------------- -->
-                <div class="card bg-primary-subtle mb-0">
-                    <div class="card-body">
-                        <div class="hstack align-items-center gap-3 mb-4">
-                            <span
-                                class="d-flex align-items-center justify-content-center round-48 bg-white rounded flex-shrink-0">
-                                <iconify-icon icon="solar:box-linear" class="fs-7 text-primary"></iconify-icon>
-                            </span>
-                            <div>
-                                <p class="mb-1 text-dark-light">Total settlements</p>
-                                <h4 class="mb-0 fw-bolder">$122,580</h5>
-                            </div>
-                        </div>
-                        <div style="height: 278px;">
-                            <div id="settlements"></div>
-                        </div>
-                        <div class="row mt-4 mb-2">
-                            <div class="col-md-6 text-center">
-                                <p class="mb-1 text-dark-light lh-lg">Total balance</p>
-                                <h4 class="mb-0 text-nowrap">$122,580</h4>
-                            </div>
-                            <div class="col-md-6 text-center mt-3 mt-md-0">
-                                <p class="mb-1 text-dark-light lh-lg">Withdrawals</p>
-                                <h4 class="mb-0">$31,640</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </div><!--end page-title-box-->
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end container-->
     </div>
-</div>
-@endsection
+    <!--end page title-->
+    <div class="page-wrapper">
+
+        <!-- Page Content-->
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="card-title">Leads Report</h4>
+                                            </div><!--end col-->
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-sm btn-outline-light"><i class="icofont-download fs-14 me-1"></i>Download</button>
+                                            </div><!--end col-->
+                                        </div> <!--end row-->
+                                    </div><!--end card-header-->
+                                    <div class="card-body pt-0">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <thead class="">
+                                                    <tr>
+                                                        <th class="border-top-0">Lead</th>
+                                                        <th class="border-top-0">Email</th>
+                                                        <th class="border-top-0">Phone No</th>
+                                                        <th class="border-top-0">Company</th>
+                                                        <th class="border-top-0">Status</th>
+                                                        <th class="border-top-0 text-end">Action</th>
+                                                    </tr><!--end tr-->
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><img src="assets/images/users/avatar-10.jpg" alt="" class="thumb-sm rounded me-2 d-inline-block">Donald Gardner</td>
+                                                        <td>xyx@gmail.com</td>
+                                                        <td>+123456789</td>
+                                                        <td>Starbucks coffee</td>
+                                                        <td><span class="badge text-success border border-success px-2">New Lead</span></td>
+                                                        <td class="text-end">
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="iconoir-edit text-secondary fs-18"></i></a>
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="iconoir-xmark-circle text-secondary fs-18"></i></a>
+                                                        </td>
+                                                    </tr><!--end tr-->
+                                                    <tr>
+                                                        <td><img src="assets/images/users/avatar-9.jpg" alt="" class="thumb-sm rounded d-inline-block me-2">Matt Rosales</td>
+                                                        <td>xyx@gmail.com</td>
+                                                        <td>+123456789</td>
+                                                        <td>Mac Donald</td>
+                                                        <td><span class="badge text-danger border border-danger px-2">Lost</span></td>
+                                                        <td class="text-end">
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="iconoir-edit text-secondary fs-18"></i></a>
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="iconoir-xmark-circle text-secondary fs-18"></i></a>
+                                                        </td>
+                                                    </tr><!--end tr-->
+                                                    <tr>
+                                                        <td><img src="assets/images/users/avatar-8.jpg" alt="" class="thumb-sm rounded d-inline-block me-2">Michael Hill</td>
+                                                        <td>xyx@gmail.com</td>
+                                                        <td>+123456789</td>
+                                                        <td>Life Good</td>
+                                                        <td><span class="badge text-success border border-success px-2">New Lead</span></td>
+                                                        <td class="text-end">
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="iconoir-edit text-secondary fs-18"></i></a>
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="iconoir-xmark-circle text-secondary fs-18"></i></a>
+                                                        </td>
+                                                    </tr><!--end tr-->
+                                                    <tr>
+                                                        <td><img src="assets/images/users/avatar-7.jpg" alt="" class="thumb-sm rounded d-inline-block me-2">Nancy Flanary</td>
+                                                        <td>xyx@gmail.com</td>
+                                                        <td>+123456789</td>
+                                                        <td>Flipcart</td>
+                                                        <td><span class="badge text-blue border border-blue px-2">Converted</span></td>
+                                                        <td class="text-end">
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="iconoir-edit text-secondary fs-18"></i></a>
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="iconoir-xmark-circle text-secondary fs-18"></i></a>
+                                                        </td>
+                                                    </tr><!--end tr-->
+                                                    <tr>
+                                                        <td><img src="assets/images/users/avatar-5.jpg" alt="" class="thumb-sm rounded d-inline-block me-2">Joseph Cross</td>
+                                                        <td>xyx@gmail.com</td>
+                                                        <td>+123456789</td>
+                                                        <td>Reebok</td>
+                                                        <td><span class="badge text-success border border-success px-2">New Lead</span></td>
+                                                        <td class="text-end">
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="iconoir-edit text-secondary fs-18"></i></a>
+                                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete"><i class="iconoir-xmark-circle text-secondary fs-18"></i></a>
+                                                        </td>
+                                                    </tr><!--end tr-->
+                                                </tbody>
+                                            </table> <!--end table-->
+                                        </div><!--end /div-->
+                                        <div class="d-lg-flex justify-content-lg-between mt-2 align-items-center">
+                                            <div class="mb-2 mb-lg-0">
+                                                <p class="mb-0 text-truncate fw-medium fs-13 text-muted">01-05 of 12</p>
+                                            </div>
+                                            <div>
+                                                <ul class="pagination  pagination-sm mb-0">
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link" href="#" tabindex="-1"><span aria-hidden="true">«</span></a>
+                                                    </li>
+                                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">2</a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#"><span aria-hidden="true">»</span></a>
+                                                    </li>
+                                                </ul><!--end pagination-->
+                                            </div>
+                                        </div><!--end table-responsive-->
+                                    </div><!--end card-body-->
+                                </div><!--end card-->
+                            </div> <!--end col-->
+                        </div>
+                    </div>
+                </div><!--end row-->
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">Visits Details</h4>
+                                    </div><!--end col-->
+                                </div> <!--end row-->
+                            </div><!--end card-header-->
+                            <div class="card-body pt-0">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead class="">
+                                            <tr>
+                                                <th>URL</th>
+                                                <th class="text-end">Views</th>
+                                                <th class="text-end">Uniques</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>htpps:/</td>
+                                                <td class="text-end">9.2k</td>
+                                                <td class="text-end">7.9k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>.com/dashboard</td>
+                                                <td class="text-end">7.7k</td>
+                                                <td class="text-end">6.2k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>.com/ecommerce-index</td>
+                                                <td class="text-end">6.8k</td>
+                                                <td class="text-end">5.5k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>.com/apps/projects-overview</td>
+                                                <td class="text-end">5k</td>
+                                                <td class="text-end">4.9k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>.com/blog/crypto/exchange</td>
+                                                <td class="text-end">4.3k</td>
+                                                <td class="text-end">3.3k</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end col -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">By Social Media</h4>
+                                    </div><!--end col-->
+                                </div> <!--end row-->
+                            </div><!--end card-header-->
+                            <div class="card-body pt-0">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead class="">
+                                            <tr>
+                                                <th>Source</th>
+                                                <th class="text-end">Views</th>
+                                                <th class="text-end">Uniques</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Twitter</td>
+                                                <td class="text-end">9.2k</td>
+                                                <td class="text-end">7.9k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Facebook</td>
+                                                <td class="text-end">7.7k</td>
+                                                <td class="text-end">6.2k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Instagram</td>
+                                                <td class="text-end">6.8k</td>
+                                                <td class="text-end">5.5k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>LinkedIn</td>
+                                                <td class="text-end">5k</td>
+                                                <td class="text-end">4.9k</td>
+                                            </tr>
+                                            <tr>
+                                                <td>WhatsApp</td>
+                                                <td class="text-end">4.3k</td>
+                                                <td class="text-end">3.3k</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end col -->
+                </div> <!-- end row -->
+            </div><!-- container -->
+            <div class="endbar-overlay d-print-none"></div>
+
+            <!--end Rightbar-->
+            <!--Start Footer-->
+            @include("components.footer")
+            <!--end footer-->
+        </div>
+        <!-- end page content -->
+    </div>
+    <!-- end page-wrapper -->
+    @endsection

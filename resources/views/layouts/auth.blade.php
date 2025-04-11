@@ -1,39 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
+<html lang="en" dir="ltr" data-startbar="dark" data-bs-theme="light">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="UTF-8" />
+
+
+    <meta charset="utf-8" />
+    <title>Visitors management - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-    <!-- Core Css -->
-    <link rel="stylesheet" href="assets/css/styles.css" />
 
-    <title>Mosala admin | Login</title>
+    <!-- App css -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 
+
+<!-- Top Bar Start -->
 <body>
-    <!-- Preloader -->
-    <div class="preloader">
-        <img src="assets/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid" />
-    </div>
-    @yield("content")
-    <div class="dark-transparent sidebartoggler"></div>
-    <!-- Import Js Files -->
-    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/simplebar/dist/simplebar.min.js"></script>
-    <script src="assets/js/theme/app.init.js"></script>
-    <script src="assets/js/theme/theme.js"></script>
-    <script src="assets/js/theme/app.min.js"></script>
+@yield('content')
+<!-- container -->
 
-    <!-- solar icons -->
-    <script src="assets/libs/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-
-    @yield("scripts")
+<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/pages/toast.init.js"></script>
 </body>
-
+<!--end body-->
 </html>
