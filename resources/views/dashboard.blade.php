@@ -6,12 +6,12 @@
             <div class="row gap-0">
                 <div class="col-sm-12">
                     <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center">
-                        <h4 class="page-title mt-3 mt-md-0">Reports</h4>
+                        <h4 class="page-title mt-3 mt-md-0">Tableau de bord</h4>
                         <div class="">
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">Materialy</a>
+                                <li class="breadcrumb-item"><a href="#">Visitors management</a>
                                 </li><!--end nav-item-->
-                                <li class="breadcrumb-item"><a href="#">Analytics</a>
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a>
                                 </li><!--end nav-item-->
                                 <li class="breadcrumb-item active">Reports</li>
                             </ol>
@@ -28,6 +28,95 @@
         <div class="page-content">
             <div class="container-fluid">
                 <div class="row">
+                    <!-- Counter -->
+                    <div class="col-12">
+                        <div class="card overflow-hidden">
+                            <div class="row g-0">
+                                <div class="col-md-6 col-lg-3 border-b border-e border-bo">
+                                    <div class="card-body bg-info-subtle">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col">
+                                                <div class="d-flex">
+                                                    <div class="bg-info text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
+                                                        <i class="iconoir-archery fs-20 align-self-center"></i> 
+                                                    </div>
+                                                    <div class="flex-grow-1 text-truncate align-self-center ms-2"> 
+                                                        <p class="text-dark mb-0 fw-semibold">Projects</p>                                                      
+                                                        <p class="mb-0 text-truncate fs-13 text-muted"><i class="las la-check-circle me-1 text-success"></i>26 Project Complete</p>
+                                                    </div><!--end media body-->
+                                                </div><!--end media-->                                                     
+                                            </div><!--end col-->
+                                            <div class="col-auto align-self-center">
+                                                <h4 class="text-dark mb-0 fw-semibold fs-22">81</h4> 
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </div><!--end card-body-->                                            
+                                </div> <!--end col--> 
+                                <div class="col-md-6 col-lg-3 border-b border-e border-bo">
+                                    <div class="card-body bg-primary-subtle">
+                                        <div class="row d-flex justify-content-center">                                                
+                                            <div class="col">
+                                                <div class="d-flex">
+                                                    <div class="bg-primary text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
+                                                        <i class="iconoir-task-list fs-20 align-self-center"></i> 
+                                                    </div>
+                                                    <div class="flex-grow-1 text-truncate align-self-center ms-2"> 
+                                                        <p class="text-dark mb-0 fw-semibold">Tasks</p>                                                      
+                                                        <p class="mb-0 text-truncate fs-13 text-muted"><span class="badge text-success border-0 bg-soft-success fs-9 px-2">Active</span> Weekly Avg.Sessions</p>
+                                                    </div><!--end media body-->
+                                                </div><!--end media-->                                                     
+                                            </div><!--end col-->
+                                            <div class="col-auto align-self-center">
+                                                <h4 class="text-dark mb-0 fw-semibold fs-22">104</h4> 
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </div><!--end card-body-->                                            
+                                </div> <!--end col-->                         
+                                <div class="col-md-6 col-lg-3 border-b border-e">
+                                    <div class="card-body bg-info-subtle">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col">
+                                                <div class="d-flex">
+                                                    <div class="bg-info text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
+                                                        <i class="iconoir-community fs-20 align-self-center"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 text-truncate align-self-center ms-2"> 
+                                                        <p class="text-dark mb-0 fw-semibold">Members</p>                                                      
+                                                        <p class="mb-0 text-truncate fs-13 text-muted">Working hard</p>
+                                                    </div><!--end media body-->
+                                                </div><!--end media-->                                                     
+                                            </div><!--end col-->
+                                            <div class="col-auto align-self-center">
+                                                <h4 class="text-dark mb-0 fw-semibold fs-22">82</h4> 
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </div><!--end card-body-->                                            
+                                </div> <!--end col--> 
+                                <div class="col-md-6 col-lg-3 ">
+                                    <div class="card-body bg-primary-subtle">
+                                        <div class="row d-flex justify-content-center">                                                
+                                            <div class="col">
+                                                <div class="d-flex">
+                                                    <div class="bg-primary text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
+                                                        <i class="iconoir-multiple-pages fs-20 align-self-center"></i>
+                                                    </div>
+                                                    <div class="flex-grow-1 text-truncate align-self-center ms-2"> 
+                                                        <p class="text-dark mb-0 fw-semibold">Invoices</p>                                                      
+                                                        <p class="mb-0 text-truncate fs-13 text-muted">Soon to be cleared</p>
+                                                    </div><!--end media body-->
+                                                </div><!--end media-->                                                     
+                                            </div><!--end col-->
+                                            <div class="col-auto align-self-center">
+                                                <h4 class="text-dark mb-0 fw-semibold fs-22">51</h4> 
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </div><!--end card-body-->                                            
+                                </div> <!--end col-->
+                            </div><!--end row--> 
+                        </div><!--end card-->
+                    </div>
+                    <!-- end counter -->
+
                     <div class="col-lg-12">
                         <div class="row justify-content-center">
                             <div class="col-12 col-lg-12">
@@ -35,10 +124,11 @@
                                     <div class="card-header">
                                         <div class="row align-items-center">
                                             <div class="col">
-                                                <h4 class="card-title">Leads Report</h4>
+                                                <h4 class="card-title">Visites journaliers</h4>
                                             </div><!--end col-->
                                             <div class="col-auto">
-                                                <button type="submit" class="btn btn-sm btn-outline-light"><i class="icofont-download fs-14 me-1"></i>Download</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-light"><i class="icofont-download fs-14 me-1"></i>Excel</button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#visit-create-modal"><i class="fa-solid fa-plus me-1"></i> Nouvelle visite</button>
                                             </div><!--end col-->
                                         </div> <!--end row-->
                                     </div><!--end card-header-->
@@ -247,6 +337,10 @@
                 </div> <!-- end row -->
             </div><!-- container -->
             <div class="endbar-overlay d-print-none"></div>
+
+
+            <!-- modal create visit -->
+            <x-visit-create-modal></x-visit-create-modal>
 
             <!--end Rightbar-->
             <!--Start Footer-->

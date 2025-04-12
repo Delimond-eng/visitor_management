@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_permissions', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->enum('permission_type', ['Update', 'Delete', 'Export']);
-            $table->boolean('enabled')->default(false);
-            $table->timestamps();
+            $table->id(); // ID unique de l’autorisation
+            $table->unsignedBigInteger('user_id'); // Référence vers l’utilisateur
+            $table->enum('permission_type', ['Update', 'Delete', 'Export']); // Type de permission accordée
+            $table->boolean('enabled')->default(false); // Permission activée ou non
+            $table->timestamps(); // created_at et updated_at
         });
     }
 

@@ -15,15 +15,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('visitors', function (Blueprint $table) {
-            $table->id();
-            $table->string('full_name');
-            $table->string('company_or_address')->nullable();
-            $table->string('contact_number')->nullable();
-            $table->string('email_address')->nullable();
-            $table->string('id_proof_type')->nullable();
-            $table->string('id_proof_number')->nullable();
-            $table->string('vehicle_number')->nullable();
-            $table->timestamps();
+            $table->id(); // ID visiteur unique
+            $table->string('full_name'); // Nom complet du visiteur
+            $table->string('company_or_address')->nullable(); // Société ou adresse du visiteur (facultatif)
+            $table->string('contact_number')->nullable(); // Numéro de téléphone (facultatif)
+            $table->string('email_address')->nullable(); // Adresse email du visiteur (facultatif)
+            $table->string('id_proof_type')->nullable(); // Type de pièce d'identité (ex : CIN, passeport)
+            $table->string('id_proof_number')->nullable(); // Numéro de pièce d'identité
+            $table->string('vehicle_number')->nullable(); // Numéro d'immatriculation du véhicule (facultatif)
+            $table->timestamps(); // created_at et updated_at
         });
     }
 
