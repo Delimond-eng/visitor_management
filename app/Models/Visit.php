@@ -13,7 +13,13 @@ class Visit extends Model
 
 
     protected $fillable = [
-        'visitor_id',
+        'full_name',
+        'company_or_address',
+        'contact_number',
+        'email_address',
+        'id_proof_type',
+        'id_proof_number',
+        'vehicle_number',
         'purpose',
         'visit_date',
         'time_in',
@@ -27,11 +33,6 @@ class Visit extends Model
         'updated_by',
         'update_timestamp'
     ];
-
-    public function visitor(): BelongsTo
-    {
-        return $this->belongsTo(Visitor::class);
-    }
 
     public function histories(): HasMany
     {

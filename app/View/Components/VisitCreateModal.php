@@ -2,6 +2,10 @@
 
 namespace App\View\Components;
 
+use App\Models\Department;
+use App\Models\ProfType;
+use App\Models\VisitorType;
+use App\Models\VisitPurpose;
 use Illuminate\View\Component;
 
 class VisitCreateModal extends Component
@@ -11,9 +15,16 @@ class VisitCreateModal extends Component
      *
      * @return void
      */
+    public $departments;
+    public $profTypes;
+    public $visitorTypes;
+    public $visitPurposes;
     public function __construct()
     {
-        //
+        $this->departments = Department::all();
+        $this->profTypes = ProfType::all();
+        $this->visitorTypes = VisitorType::all();
+        $this->visitPurposes = VisitPurpose::all();
     }
 
     /**

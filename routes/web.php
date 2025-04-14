@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name("home");
-Route::view("/visits", "visits")->name("visits");
+Route::middleware("auth")->group(function(){
+    Route::get('/', [HomeController::class, 'index'])->name("home");
+    Route::view("/visits", "visits")->name("visits");
+    Route::get("/configs", [ConfigController::class, "showConfigs"])->name("configs");
+    Route::get("/users_manage", [UserController::class, "showAllUsers"])->name("users_manage");
+    Route::post("/user_create", [UserController::class, "createUser"])->name("user_create");
+});
 

@@ -16,9 +16,15 @@ return new class extends Migration
     {
         Schema::create('visits', function (Blueprint $table) {
             $table->id(); // ID unique de la visite
-            $table->unsignedBigInteger('visitor_id'); // Référence vers le visiteur concerné (clé étrangère)
+            $table->string('full_name'); // Nom complet du visiteur
+            $table->string('company_or_address')->nullable(); // Société ou adresse du visiteur (facultatif)
+            $table->string('contact_number')->nullable(); // Numéro de téléphone (facultatif)
+            $table->string('email_address')->nullable(); // Adresse email du visiteur (facultatif)
+            $table->string('id_proof_type')->nullable(); // Type de pièce d'identité (ex : CIN, passeport)
+            $table->string('id_proof_number')->nullable(); // Numéro de pièce d'identité
+            $table->string('vehicle_number')->nullable(); // Numéro d'immatriculation du véhicule (facultatif)
             $table->string('purpose'); // But de la visite (ex : réunion, livraison)
-            $table->date('visit_date'); // Date de la visite
+            $table->date('visit_date')->useCurrent(); // Date de la visite
             $table->time('time_in'); // Heure d’entrée
             $table->time('time_out')->nullable(); // Heure de sortie (null si pas encore sorti)
             $table->time('stay_time')->nullable(); // Durée de la visite (calculée)
@@ -27,7 +33,7 @@ return new class extends Migration
             $table->enum('status', ['Pending', 'Approved', 'Completed'])->default('Pending'); // État de la visite
             $table->text('remarks')->nullable(); // Remarques éventuelles sur la visite
             $table->string('picture_url')->nullable(); // URL vers la photo du visiteur
-            $table->string('updated_by')->nullable(); // Nom ou ID de la personne ayant mis à jour l’entrée
+            $table->unsignedBigInteger('updated_by'); // Nom ou ID de la personne ayant mis à jour l’entrée
             $table->timestamp('update_timestamp')->useCurrent(); // Horodatage de mise à jour (auto)
             $table->timestamps(); // created_at et updated_at
         });

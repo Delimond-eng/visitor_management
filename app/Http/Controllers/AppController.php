@@ -4,96 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Visit;
 use App\Models\VisitHistory;
-use App\Models\Visitor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AppController extends Controller
 {
-    // ===============================
-    // VISITOR CRUD
-    // ===============================
 
-    /**
-     * Create a new visitor entry.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function createVisitor(Request $request): JsonResponse
+
+    public function __construct()
     {
-        $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string|max:255',
-            'company_or_address' => 'nullable|string|max:255',
-            'contact_number' => 'nullable|string|max:50',
-            'email_address' => 'nullable|email',
-            'id_proof_type' => 'nullable|string|max:100',
-            'id_proof_number' => 'nullable|string|max:100',
-            'vehicle_number' => 'nullable|string|max:100'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $visitor = Visitor::create($request->all());
-        return response()->json($visitor);
+        $this->middleware("auth");
     }
-
-    /**
-     * Update an existing visitor.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function updateVisitor(Request $request, $id): JsonResponse
-    {
-        $visitor = Visitor::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'full_name' => 'sometimes|required|string|max:255',
-            'company_or_address' => 'nullable|string|max:255',
-            'contact_number' => 'nullable|string|max:50',
-            'email_address' => 'nullable|email',
-            'id_proof_type' => 'nullable|string|max:100',
-            'id_proof_number' => 'nullable|string|max:100',
-            'vehicle_number' => 'nullable|string|max:100'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $visitor->update($request->all());
-        return response()->json($visitor);
-    }
-
-    /**
-     * Delete a visitor by ID.
-     *
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function deleteVisitor($id): JsonResponse
-    {
-        Visitor::findOrFail($id)->delete();
-        return response()->json(['message' => 'Visiteur supprimé']);
-    }
-
-    /**
-     * List all visitors.
-     *
-     * @return JsonResponse
-     */
-    public function listVisitors(): JsonResponse
-    {
-        return response()->json(Visitor::all());
-    }
-
-
 
     // ===============================
     // VISIT CRUD
@@ -105,76 +29,125 @@ class AppController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function createVisit(Request $request): JsonResponse
+
+    public function saveVisit(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'visitor_id' => 'required|exists:visitors,id',
+            'visit_id' => 'nullable|exists:visits,id',
+            'full_name' => 'required|string|max:255',
+            'company_or_address' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:50',
+            'email_address' => 'nullable|email|max:255',
+            'id_proof_type' => 'nullable|string|max:50',
+            'id_proof_number' => 'nullable|string|max:100',
+            'vehicle_number' => 'nullable|string|max:50',
             'purpose' => 'required|string|max:255',
-            'visit_date' => 'required|date',
             'time_in' => 'required|date_format:H:i',
             'time_out' => 'nullable|date_format:H:i',
-            'stay_time' => 'nullable|string|max:50',
             'entry_authorized_by' => 'nullable|string|max:255',
             'pass_number' => 'nullable|string|max:50',
             'status' => 'nullable|string|max:50',
             'remarks' => 'nullable|string|max:500',
-            'picture_url' => 'nullable|string|max:255',
-            'updated_by' => 'nullable|string|max:255',
-            'update_timestamp' => 'nullable|date'
+            'picture_url' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $visit = Visit::create($request->all());
-        return response()->json($visit);
-    }
+        DB::beginTransaction();
 
+        try {
+            $data = $request->only([
+                'full_name',
+                'company_or_address',
+                'contact_number',
+                'email_address',
+                'id_proof_type',
+                'id_proof_number',
+                'vehicle_number',
+                'purpose',
+                'time_in',
+                'time_out',
+                'entry_authorized_by',
+                'pass_number',
+                'status',
+                'remarks'
+            ]);
 
+            // Ajout de l'utilisateur connecté et de la date de mise à jour
+            $data['updated_by'] =Auth::user()->id;
+            $data['update_timestamp'] = $request->update_timestamp ?? now();
 
+            // Gestion du fichier image
+            if ($request->hasFile('picture_url')) {
+                $file = $request->file('picture_url');
+                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/visitors'), $filename);
+                $data['picture_url'] = 'uploads/visitors/' . $filename;
+            }
 
-    /**
-     * Update a visit and store history of changes.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function updateVisit(Request $request, int $id): JsonResponse
-    {
-        $visit = Visit::findOrFail($id);
+            // Calcul automatique du stay_time si possible
+            if (!empty($request->time_in) && !empty($request->time_out)) {
+                $timeIn = \Carbon\Carbon::createFromFormat('H:i', $request->time_in);
+                $timeOut = \Carbon\Carbon::createFromFormat('H:i', $request->time_out);
 
-        $validator = Validator::make($request->all(), [
-            'purpose' => 'sometimes|required|string|max:255',
-            'time_in' => 'sometimes|date_format:H:i',
-            'time_out' => 'sometimes|date_format:H:i',
-            'stay_time' => 'nullable|string|max:50',
-            'entry_authorized_by' => 'nullable|string|max:255',
-            'pass_number' => 'nullable|string|max:50',
-            'status' => 'nullable|string|max:50',
-            'remarks' => 'nullable|string|max:500',
-            'picture_url' => 'nullable|string|max:255',
-            'updated_by' => 'nullable|string|max:255',
-            'update_timestamp' => 'nullable|date'
-        ]);
+                if ($timeOut->greaterThan($timeIn)) {
+                    $diff = $timeIn->diff($timeOut);
+                    $data['stay_time'] = $diff->format('%Hh %Im');
+                } else {
+                    $data['stay_time'] = null;
+                }
+            }
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            // On récupère l'ancienne visite si elle existe (avant l'update)
+            $oldVisit = $request->visit_id ? Visit::find($request->visit_id) : null;
+
+            // Création ou mise à jour
+            $visit = Visit::updateOrCreate(
+                ['id' => $request->visit_id],
+                $data
+            );
+
+            // Préparation de l'historique
+            $changes = [];
+
+            if ($oldVisit) {
+                foreach ($data as $key => $value) {
+                    if ($oldVisit->{$key} != $value) {
+                        $changes[$key] = [
+                            'old' => $oldVisit->{$key},
+                            'new' => $value
+                        ];
+                    }
+                }
+            } else {
+                foreach ($data as $key => $value) {
+                    $changes[$key] = [
+                        'old' => null,
+                        'new' => $value
+                    ];
+                }
+            }
+
+            // Sauvegarde de l'historique
+            if (!empty($changes)) {
+                VisitHistory::create([
+                    'visit_id' => $visit->id,
+                    'updated_by' => $data['updated_by'],
+                    'update_timestamp' => $data['update_timestamp'],
+                    'changes' => json_encode($changes, JSON_PRETTY_PRINT),
+                ]);
+            }
+
+            DB::commit();
+            return response()->json($visit);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Erreur lors de l\'enregistrement : ' . $e->getMessage()], 500);
         }
-
-        $old = $visit->getOriginal();
-        $visit->update($request->all());
-
-        VisitHistory::create([
-            'visit_id' => $visit->id,
-            'updated_by' => Auth::user()->id ?? 'system',
-            'update_timestamp' => now(),
-            'changes' => array_diff_assoc($visit->getAttributes(), $old),
-        ]);
-
-        return response()->json($visit);
     }
+
 
     /**
      * Delete a visit by ID.

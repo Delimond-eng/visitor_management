@@ -37,7 +37,7 @@
                         </a>
                     </li><!--end nav-item-->
                     <li class="nav-item">
-                        <a class="nav-link" href="apps-contact-list.html">
+                        <a class="nav-link {{ Route::is("users_manage") ? 'active' : '' }}" href="{{ url("/users_manage") }}">
                             <iconify-icon icon="solar:shield-user-broken"
                                           class="menu-icon"></iconify-icon>
                             <span>Gestion des utilisateurs</span>
@@ -73,23 +73,11 @@
                         <span>Paramètres</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
-                           aria-expanded="false" aria-controls="sidebarForms">
+                        <a class="nav-link {{ Route::is("configs") ? 'active' : '' }}" href="{{ url("/configs") }}">
                             <iconify-icon icon="solar:settings-minimalistic-broken" class="menu-icon"></iconify-icon>
                             <span>Paramètres</span>
                         </a>
-                        <div class="collapse " id="sidebarForms">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-elements.html">Types de pièces d'identité </a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-advanced.html">Motifs de visite</a>
-                                </li><!--end nav-item-->
-                            </ul><!--end nav-->
-                        </div><!--end startbarForms-->
                     </li><!--end nav-item-->
-                   
                 </ul><!--end navbar-nav--->
             </div>
         </div><!--end startbar-collapse-->

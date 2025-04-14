@@ -13,62 +13,77 @@
                     <div class="col-md-10">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Nom du visiteur <sup class="text-danger">*</sup></label>
-                                <input type="email" class="form-control border-dark">
+                                <label class="form-label text-dark" >Nom complet du visiteur <sup class="text-danger">*</sup></label>
+                                <input type="text" name="full_name" class="form-control border-dark">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Entreprise ou Adresse <sup class="text-danger">*</sup></label>
-                                <input type="email" class="form-control border-dark">
+                                <label class="form-label text-dark" >Entreprise ou Adresse <sup class="text-danger">*</sup></label>
+                                <input type="text" name="company_or_address" class="form-control border-dark">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Département <sup class="text-danger">*</sup></label>
+                                <label class="form-label text-dark" >Département <sup class="text-danger">(Optionnel)</sup></label>
                                 <select class="form-select border-dark" name="dept_id">
                                     <option value="" selected hidden></option>
+                                    @foreach ($departments as $dept)
+                                        <option value="{{ $dept->libelle }}">{{ $dept->libelle }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Type de visiteurs <sup class="text-danger">*</sup></label>
-                                <select class="form-select border-dark" name="dept_id">
+                                <label class="form-label text-dark" >Type de visiteurs <sup class="text-danger">*</sup></label>
+                                <select name="id_proof_type" class="form-select border-dark">
                                     <option value="" selected hidden></option>
+                                    @foreach ($visitorTypes as $vtype)
+                                        <option value="{{ $vtype->libelle }}">{{ $vtype->libelle }}</option>
+                                    @endforeach
+                                    <option value="Autre">Autre</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Motif de la visite <sup class="text-danger">*</sup></label>
-                                <select class="form-select border-dark" name="dept_id">
+                                <label class="form-label text-dark" >Motif de la visite <sup class="text-danger">*</sup></label>
+                                <select name="purpose" class="form-select border-dark">
                                     <option value="" selected hidden></option>
+                                    @foreach ($visitPurposes as $purpose)
+                                        <option value="{{ $purpose->libelle }}">{{ $purpose->libelle }}</option>
+                                    @endforeach
+                                    <option value="Autre">Autre</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Téléphone <sup class="text-danger">*</sup></label>
-                                <input type="tel" class="form-control border-dark" placeholder="+(243) 810000000">
+                                <label class="form-label text-dark" >Téléphone <sup class="text-danger">*</sup></label>
+                                <input type="tel" name="contact_number" class="form-control border-dark" placeholder="+(243) 810000000">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Type de carte d'Identité<sup class="text-danger">*</sup></label>
-                                <select class="form-select border-dark" name="dept_id">
+                                <label class="form-label text-dark" >Type de carte d'Identité<sup class="text-danger">*</sup></label>
+                                <select class="form-select border-dark" name="id_proof_number">
                                     <option value="" selected hidden></option>
+                                    @foreach ($profTypes as $ptype)
+                                        <option value="{{ $ptype->libelle }}">{{ $ptype->libelle }}</option>
+                                    @endforeach
+                                    <option value="Autre">Autre</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-dark" for="exampleFormControlInput1">Numéro carte d'Identité <sup class="text-danger">*</sup></label>
-                                <input type="email" class="form-control border-dark">
+                                <label class="form-label text-dark" >Numéro carte d'Identité <sup class="text-danger">*</sup></label>
+                                <input type="text" name="id_proof_number" class="form-control border-dark">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label text-dark mb-2" for="exampleFormControlInput1">Photo du visiteur<sup class="text-danger">(optionnel)</sup></label>
+                        <label class="form-label text-dark mb-2" >Photo du visiteur<sup class="text-danger">(optionnel)</sup></label>
                         <div id="preview" class="rounded d-flex justify-content-center align-items-center border-dashed mb-2" style="height: 200px; width: 100%;">
                             <button onclick="removePic()" class="bg-danger-subtle border-0 thumb-sm rounded-circle d-none" id="btn-pic-clear">                                                    
                                 <i class="fa fa-close text-danger fs-12"></i>
                             </button>
                         </div>
-                        <input type="file" id="picture" accept="image/*" hidden>
+                        <input type="file" name="picture_url" id="picture" accept="image/*" hidden>
                         <div class="d-flex">
                             <button class="btn btn-dark btn-sm me-2 flex-fill" id="btn-upload"><i
                                     class="fa fa-upload me-1"></i>Charger</l>
@@ -78,42 +93,48 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Adresse email <sup class="text-danger">(optionnel)</sup></label>
-                        <input type="email" class="form-control border-dark">
+                        <label class="form-label text-dark" >Adresse email <sup class="text-danger">(optionnel)</sup></label>
+                        <input type="email" name="email_address" class="form-control border-dark">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Numéro du véhicule<sup class="text-danger">(optionnel)</sup></label>
-                        <input type="email" class="form-control border-dark">
+                        <label class="form-label text-dark" >Numéro du véhicule<sup class="text-danger">(optionnel)</sup></label>
+                        <input type="text" name="vehicle_number" class="form-control border-dark">
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Entrée autorisée par <sup class="text-danger">*</sup></label>
-                        <input type="email" class="form-control border-dark">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Heure d'entrée <sup class="text-danger">*</sup></label>
-                        <input type="time" id="time-in" class="form-control border-dark">
+                    <div class="col-md-4">
+                        <label class="form-label text-dark" >Entrée autorisée par <sup class="text-danger">*</sup></label>
+                        <input type="text" name="entry_authorized_by" class="form-control border-dark">
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Heure de sortie</label>
-                        <input type="time" id="time-out" class="form-control border-dark">
+                        <label class="form-label text-dark" >Heure d'entrée <sup class="text-danger">*</sup></label>
+                        <input type="time" name="time_in" id="time-in" class="form-control border-dark">
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Status</label>
-                        <select class="form-select border-dark">
-                            <option value="" hidden selected></option>
+                        <label class="form-label text-dark" >Heure de sortie</label>
+                        <input type="time" name="time_out" id="time-out" class="form-control border-dark">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-dark" >Durée de la visite</label>
+                        <input type="text" name="stay-time" id="stay-time" class="form-control border-dark" disabled readonly>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-dark" >Status</label>
+                        <select name="status" class="form-select border-dark">
+                            <option value="Pending" selected>En attente</option>
+                            <option value="Approved">Approuvé</option>
+                            <option value="Completed">Terminé</option>
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Numéro carte de visite <sup class="text-danger">*</sup></label>
-                        <input type="text" class="form-control border-dark">
+                        <label class="form-label text-dark" >Numéro carte de visite <sup class="text-danger">*</sup></label>
+                        <input type="text" class="form-control border-dark" name="pass_number">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Nom de l'Hôte <sup class="text-danger">*</sup></label>
+                        <label class="form-label text-dark" >Nom de l'Hôte <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control border-dark" placeholder="ex: freddy">
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label text-dark" for="exampleFormControlInput1">Observation <sup class="text-danger">(optionnel)</sup></label>
-                        <textarea class="form-control border-dark" placeholder="Saisir une obs.(optionnel)"></textarea>
+                        <label class="form-label text-dark" >Observation <sup class="text-danger">(optionnel)</sup></label>
+                        <textarea name="remarks" class="form-control border-dark" placeholder="Saisir une obs.(optionnel)"></textarea>
                     </div>
                 </div>
             </div><!--end modal-body-->
@@ -233,12 +254,10 @@
         }
     });
 
-
     function removePic(){
         document.getElementById("btn-pic-clear").classList.add("d-none");
         document.getElementById('picture').value = '';
         const preview = document.getElementById('preview');
-        preview.innerHTML = '';
         preview.style.backgroundImage = '';
     }
 </script>

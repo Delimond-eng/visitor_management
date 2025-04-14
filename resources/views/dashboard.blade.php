@@ -6,7 +6,7 @@
             <div class="row gap-0">
                 <div class="col-sm-12">
                     <div class="page-title-content d-sm-flex justify-content-sm-between align-items-center">
-                        <h4 class="page-title mt-3 mt-md-0">Tableau de bord</h4>
+                        <h4 class="page-title mt-3 mt-md-0">Tableau de bord </h4>
                         <div class="">
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#">Visitors management</a>

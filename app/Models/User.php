@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserPermission::class, 'user_id', 'id');
     }
+
+
+    public function hasPermission($type)
+    {
+        return $this->permissions->where('permission_type', $type)->where('enabled', true)->isNotEmpty();
+    }
 }

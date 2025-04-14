@@ -10,24 +10,33 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    public function __construct(){
+        $this->middleware("auth");
+    }
+    public function showAllUsers(){
+        return view("users", [
+            "users"=>User::all()
+        ]);
+    }
     /**
      * Crée un nouvel utilisateur avec son rôle et ses permissions.
      *
      * @param Request $request
-     * @return JsonResponse
      */
-    public function createUser(Request $request): JsonResponse
+    public function createUser(Request $request)
     {
         // Validation des données entrantes
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|email|unique:users,email,'. $request->user_id,
+            'password' => 'required|string|min:6',
             'role' => 'required|in:ADMIN,USER',
         ]);
 
         // Création de l'utilisateur
-        $user = User::create([
+        $user = User::updateOrCreate(
+            ["id"=>$request->user_id ?? ''],
+            [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
@@ -39,18 +48,16 @@ class UserController extends Controller
 
         foreach ($permissions as $permissionType) {
             // Création de l'entrée pour chaque permission
-            UserPermission::create([
+            UserPermission::updateOrCreate(
+                ['permission_type' => $permissionType, 'user_id' => $user->id,],
+                [
                 'user_id' => $user->id,
                 'permission_type' => $permissionType,
-                'enabled' => false, // Par défaut, les permissions sont désactivées
+                'enabled' => true,
             ]);
         }
 
-        return response()->json([
-            'message' => 'Utilisateur créé avec succès!',
-            'user' => $user,
-            'permissions' => $permissions,
-        ], 201);
+        return redirect()->route('users_manage')->with('success', 'Utilisateur créé avec succès.');
     }
 
     /**

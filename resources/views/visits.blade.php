@@ -27,7 +27,6 @@
     <!-- Page Content-->
     <div class="page-content">
         <div class="container-fluid">
-
             <div class="row">
                 <!-- Counter -->
                 <div class="col-12">
