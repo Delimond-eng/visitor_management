@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('visit_histories', function (Blueprint $table) {
             $table->id(); // ID unique de l'historique
             $table->unsignedBigInteger('visit_id'); // Référence à la visite concernée
-            $table->string('updated_by'); // Utilisateur ayant effectué la modification
+            $table->unsignedBigInteger('updated_by'); // Utilisateur ayant effectué la modification
             $table->timestamp('update_timestamp')->useCurrent(); // Date/heure de la modification
             $table->json('changes'); // Détails des modifications sous forme JSON
             $table->timestamps(); // created_at et updated_at

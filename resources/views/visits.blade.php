@@ -44,90 +44,7 @@ function getStatusBadgeClass($status) {
             <div class="row">
                 <!-- Counter -->
                 <div class="col-12">
-                    <div class="card overflow-hidden">
-                        <div class="row g-0">
-                            <div class="col-md-6 col-lg-3 border-b border-e border-bo">
-                                <div class="card-body bg-info-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-info text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-archery fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Projects</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted"><i class="las la-check-circle me-1 text-success"></i>26 Project Complete</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">81</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                            <div class="col-md-6 col-lg-3 border-b border-e border-bo">
-                                <div class="card-body bg-primary-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-primary text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-task-list fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Tasks</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted"><span class="badge text-success border-0 bg-soft-success fs-9 px-2">Active</span> Weekly Avg.Sessions</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">104</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                            <div class="col-md-6 col-lg-3 border-b border-e">
-                                <div class="card-body bg-info-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-info text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-community fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Members</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted">Working hard</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">82</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                            <div class="col-md-6 col-lg-3 ">
-                                <div class="card-body bg-primary-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-primary text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-multiple-pages fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Invoices</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted">Soon to be cleared</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">51</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                        </div><!--end row-->
-                    </div><!--end card-->
+                    <x-counters></x-counters>
                 </div>
                 <!-- end counter -->
                 <div class="col-12">
@@ -140,57 +57,15 @@ function getStatusBadgeClass($status) {
                                 <div class="col-auto">
                                     <form class="row g-2">
                                         <div class="col-auto">
-                                            <a class="btn btn-sm bg-primary-subtle text-primary dropdown-toggle d-flex align-items-center arrow-none"
-                                                data-bs-toggle="dropdown" href="#" role="button"
-                                                aria-haspopup="false" aria-expanded="false"
-                                                data-bs-auto-close="outside">
-                                                <i class="iconoir-filter-alt me-1"></i> Filter
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-start">
-                                                <div class="p-2">
-                                                    <div class="form-check mb-2">
-                                                        <input type="checkbox" class="form-check-input" checked
-                                                            id="filter-all">
-                                                        <label class="form-check-label" for="filter-all">
-                                                            All
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check mb-2">
-                                                        <input type="checkbox" class="form-check-input" checked
-                                                            id="filter-one">
-                                                        <label class="form-check-label" for="filter-one">
-                                                            New
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check mb-2">
-                                                        <input type="checkbox" class="form-check-input" checked
-                                                            id="filter-two">
-                                                        <label class="form-check-label" for="filter-two">
-                                                            Active
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" checked
-                                                            id="filter-three">
-                                                        <label class="form-check-label" for="filter-three">
-                                                            Inactive
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!--end col-->
-
-                                        <div class="col-auto">
                                             <button type="button" class="btn btn-sm btn-primary"
                                                 data-bs-toggle="modal" data-bs-target="#visit-create-modal"><i
-                                                    class="fa-solid fa-plus me-1"></i> Add Contact</button>
+                                                    class="fa-solid fa-plus me-1"></i> Nouvelle visite</button>
                                         </div><!--end col-->
                                     </form>
                                 </div><!--end col-->
                             </div><!--end row-->
                         </div><!--end card-header-->
                         <div class="card-body pt-0">
-
                             <div class="table-responsive">
                                 <table class="table mb-0 checkbox-all" id="datatable_1">
                                     <thead>
@@ -211,7 +86,7 @@ function getStatusBadgeClass($status) {
                                         @foreach($visits as $visit)
                                         <tr>
                                             <td>
-                                                <img src="{{ asset($visit->picture_url ?? 'assets/images/users/default-avatar.png') }}"
+                                                <img src="{{ asset($visit->picture_url ?? 'assets/images/users/avatar-1.jpg') }}"
                                                     alt="" class="thumb-sm rounded me-2 d-inline-block">
                                                 {{ $visit->full_name }}
                                             </td>
@@ -228,6 +103,7 @@ function getStatusBadgeClass($status) {
                                                 </span>
                                             </td>
                                             <td class="text-end">
+                                                @if (Auth::user()->hasPermission("Update"))
                                                 <a href="#"
                                                     class="btn btn-outline-info btn-sm btn-edit-visit rounded-pill shadow-none"
                                                     data-bs-toggle="modal"
@@ -255,12 +131,12 @@ function getStatusBadgeClass($status) {
                                                     title="Éditer">
                                                     <i class="iconoir-edit"></i>
                                                 </a>
-                                                <button type="submit" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
-                                                    <i class="icofont-ui-delete"></i>
-                                                </button>
-                                                <button type="submit" class="btn btn-outline-primary rounded-pill btn-sm  shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Historique">
-                                                    <i class="fa fa-clock-rotate-left"></i>
-                                                </button>
+                                                @endif
+                                                @if (Auth::user()->hasPermission("Delete"))
+                                                    <button type="submit" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
+                                                        <i class="icofont-ui-delete"></i>
+                                                    </button>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach

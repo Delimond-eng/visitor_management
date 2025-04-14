@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Visit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,9 +26,36 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $dailyVisits = Visit::with("histories")->paginate(10);
+        
+        $dailyVisits = Visit::with('histories')
+                        ->whereDate('visit_date', Carbon::now())
+                        ->orderBy('time_in')
+                        ->paginate(10);
         return view('dashboard', [
             "visits"=>$dailyVisits
         ]);
+    }
+
+    public function counts(){
+        $dailyVisitCount  = Visit::whereDate('visit_date', Carbon::now())
+                        ->count();
+        $activeVisitor = Visit::whereDate("visit_date", Carbon::now())
+                            ->where("time_out", null)->count();
+        $allVisits = Visit::count();
+        $allUsers = User::count();
+
+        return response()->json([
+            "count"=>[
+                "daily"=>$dailyVisitCount,
+                "active"=>$activeVisitor,
+                "visitCount"=>$allVisits,
+                "users"=>$allUsers
+            ]
+        ]);
+    }
+
+
+    public function getStories(){
+        return view("stories");
     }
 }

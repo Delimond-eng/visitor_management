@@ -106,6 +106,10 @@ class AppController extends Controller
                 }
             }
 
+            if(isset($data["time_out"]) && !empty($data["time_out"])){
+                $data["status"] = 'Completed';
+            }
+
             // On récupère l'ancienne visite si elle existe (avant l'update)
             $oldVisit = $request->visit_id ? Visit::find($request->visit_id) : null;
 
@@ -207,20 +211,6 @@ class AppController extends Controller
         );
     }
 
-    /**
-     * Get all visits for a specific visitor.
-     *
-     * @param int $visitorId
-     * @return JsonResponse
-     */
-    public function entriesByVisitor(int $visitorId): JsonResponse
-    {
-        return response()->json(
-            Visit::with('visitor')
-                ->where('visitor_id', $visitorId)
-                ->get()
-        );
-    }
 
     /**
      * Get history logs of a specific visit.
@@ -235,5 +225,9 @@ class AppController extends Controller
                 ->orderByDesc('update_timestamp')
                 ->get()
         );
+    }
+
+    public function counts(){
+
     }
 }

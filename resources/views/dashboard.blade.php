@@ -1,13 +1,13 @@
 @php
 if (!function_exists('getStatusBadgeClass')) {
-function getStatusBadgeClass($status) {
-return match($status) {
-'Pending' => 'text-warning border border-warning',
-'Approved' => 'text-primary border border-primary',
-'Completed' => 'text-success border border-success',
-default => 'text-muted border border-secondary',
-};
-}
+    function getStatusBadgeClass($status) {
+        return match($status) {
+            'Pending' => 'text-warning border border-warning',
+            'Approved' => 'text-primary border border-primary',
+            'Completed' => 'text-success border border-success',
+            default => 'text-muted border border-secondary',
+        };
+    }
 }
 @endphp
 
@@ -38,97 +38,13 @@ default => 'text-muted border border-secondary',
 </div>
 <!--end page title-->
 <div class="page-wrapper">
-
     <!-- Page Content-->
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
                 <!-- Counter -->
                 <div class="col-12">
-                    <div class="card overflow-hidden">
-                        <div class="row g-0">
-                            <div class="col-md-6 col-lg-3 border-b border-e border-bo">
-                                <div class="card-body bg-info-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-info text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-archery fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Projects</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted"><i class="las la-check-circle me-1 text-success"></i>26 Project Complete</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">81</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                            <div class="col-md-6 col-lg-3 border-b border-e border-bo">
-                                <div class="card-body bg-primary-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-primary text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-task-list fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Tasks</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted"><span class="badge text-success border-0 bg-soft-success fs-9 px-2">Active</span> Weekly Avg.Sessions</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">104</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                            <div class="col-md-6 col-lg-3 border-b border-e">
-                                <div class="card-body bg-info-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-info text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-community fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Members</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted">Working hard</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">82</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                            <div class="col-md-6 col-lg-3 ">
-                                <div class="card-body bg-primary-subtle">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <div class="d-flex">
-                                                <div class="bg-primary text-white d-flex justify-content-center align-items-center thumb-md align-self-center  rounded-circle">
-                                                    <i class="iconoir-multiple-pages fs-20 align-self-center"></i>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate align-self-center ms-2">
-                                                    <p class="text-dark mb-0 fw-semibold">Invoices</p>
-                                                    <p class="mb-0 text-truncate fs-13 text-muted">Soon to be cleared</p>
-                                                </div><!--end media body-->
-                                            </div><!--end media-->
-                                        </div><!--end col-->
-                                        <div class="col-auto align-self-center">
-                                            <h4 class="text-dark mb-0 fw-semibold fs-22">51</h4>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div> <!--end col-->
-                        </div><!--end row-->
-                    </div><!--end card-->
+                    <x-counters></x-counters>
                 </div>
                 <!-- end counter -->
 
@@ -173,7 +89,7 @@ default => 'text-muted border border-secondary',
                                                 @forelse($visits as $visit)
                                                 <tr>
                                                     <td>
-                                                        <img src="{{ asset($visit->picture_url ?? 'assets/images/users/default-avatar.png') }}"
+                                                        <img src="{{ asset($visit->picture_url ?? 'assets/images/users/avatar-1.jpg') }}"
                                                             alt="" class="thumb-sm rounded me-2 d-inline-block">
                                                         {{ $visit->full_name }}
                                                     </td>
@@ -190,6 +106,7 @@ default => 'text-muted border border-secondary',
                                                         </span>
                                                     </td>
                                                     <td class="text-end">
+                                                        @if (Auth::user()->hasPermission("Update"))
                                                         <a href="#"
                                                             class="btn btn-outline-info btn-sm btn-edit-visit rounded-pill shadow-none"
                                                             data-bs-toggle="modal"
@@ -217,12 +134,12 @@ default => 'text-muted border border-secondary',
                                                             title="Éditer">
                                                             <i class="iconoir-edit"></i>
                                                         </a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission("Delete"))
                                                         <button type="submit" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
                                                             <i class="icofont-ui-delete"></i>
                                                         </button>
-                                                        <button type="submit" class="btn btn-outline-primary rounded-pill btn-sm  shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Historique">
-                                                            <i class="fa fa-clock-rotate-left"></i>
-                                                        </button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 @empty
@@ -249,111 +166,6 @@ default => 'text-muted border border-secondary',
                         </div>
                     </div>
                 </div><!--end row-->
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h4 class="card-title">Visits Details</h4>
-                                    </div><!--end col-->
-                                </div> <!--end row-->
-                            </div><!--end card-header-->
-                            <div class="card-body pt-0">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="">
-                                            <tr>
-                                                <th>URL</th>
-                                                <th class="text-end">Views</th>
-                                                <th class="text-end">Uniques</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>htpps:/</td>
-                                                <td class="text-end">9.2k</td>
-                                                <td class="text-end">7.9k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>.com/dashboard</td>
-                                                <td class="text-end">7.7k</td>
-                                                <td class="text-end">6.2k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>.com/ecommerce-index</td>
-                                                <td class="text-end">6.8k</td>
-                                                <td class="text-end">5.5k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>.com/apps/projects-overview</td>
-                                                <td class="text-end">5k</td>
-                                                <td class="text-end">4.9k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>.com/blog/crypto/exchange</td>
-                                                <td class="text-end">4.3k</td>
-                                                <td class="text-end">3.3k</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h4 class="card-title">By Social Media</h4>
-                                    </div><!--end col-->
-                                </div> <!--end row-->
-                            </div><!--end card-header-->
-                            <div class="card-body pt-0">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="">
-                                            <tr>
-                                                <th>Source</th>
-                                                <th class="text-end">Views</th>
-                                                <th class="text-end">Uniques</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Twitter</td>
-                                                <td class="text-end">9.2k</td>
-                                                <td class="text-end">7.9k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Facebook</td>
-                                                <td class="text-end">7.7k</td>
-                                                <td class="text-end">6.2k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Instagram</td>
-                                                <td class="text-end">6.8k</td>
-                                                <td class="text-end">5.5k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>LinkedIn</td>
-                                                <td class="text-end">5k</td>
-                                                <td class="text-end">4.9k</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WhatsApp</td>
-                                                <td class="text-end">4.3k</td>
-                                                <td class="text-end">3.3k</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
-                </div> <!-- end row -->
             </div><!-- container -->
             <div class="endbar-overlay d-print-none"></div>
 

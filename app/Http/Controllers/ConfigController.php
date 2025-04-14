@@ -6,7 +6,6 @@ use App\Models\Department;
 use App\Models\ProfType;
 use App\Models\VisitorType;
 use App\Models\VisitPurpose;
-use Illuminate\Http\Request;
 
 class ConfigController extends Controller
 {

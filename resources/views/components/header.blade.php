@@ -49,8 +49,14 @@
                         <small class="text-muted px-2 pb-1 d-block">Compte</small>
                         <a class="dropdown-item" href="pages-profile.html"><i
                                 class="las la-user fs-18 me-1 align-text-bottom"></i> Profile</a>
-                        <a class="dropdown-item text-danger" href="#"><i
-                                class="las la-power-off fs-18 me-1 align-text-bottom"></i> Déconnexion</a>
+
+                                <a href="#" class="dropdown-item text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="las la-power-off fs-18 me-1 align-text-bottom"></i> Déconnexion
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                     
                     </div>
                 </li>
             </ul><!--end topbar-nav-->

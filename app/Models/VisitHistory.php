@@ -27,4 +27,9 @@ class VisitHistory extends Model
     {
         return $this->belongsTo(Visit::class, 'visit_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

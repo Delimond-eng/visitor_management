@@ -21,10 +21,12 @@ Auth::routes();
 
 Route::middleware("auth")->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name("home");
+    Route::get('/counts', [HomeController::class, 'counts'])->name("counts");
     Route::get("/visits", [AppController::class, "allVisits"])->name("visits");
     Route::get("/configs", [ConfigController::class, "showConfigs"])->name("configs");
     Route::get("/users_manage", [UserController::class, "showAllUsers"])->name("users_manage");
     Route::post("/user_create", [UserController::class, "createUser"])->name("user_create");
     Route::post("/visit_create", [AppController::class, "saveVisit"])->name(name: "visit.create");
+    Route::get("/stories", [HomeController::class, "getStories"])->name(name: "stories");
 });
 

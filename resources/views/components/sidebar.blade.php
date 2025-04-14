@@ -36,13 +36,16 @@
                             <span>Liste des visites</span>
                         </a>
                     </li><!--end nav-item-->
-                    <li class="nav-item">
+                    @if (Auth::user()->role == "ADMIN")
+                     <li class="nav-item">
                         <a class="nav-link {{ Route::is("users_manage") ? 'active' : '' }}" href="{{ url("/users_manage") }}">
                             <iconify-icon icon="solar:shield-user-broken"
                                           class="menu-icon"></iconify-icon>
                             <span>Gestion des utilisateurs</span>
                         </a>
                     </li><!--end nav-item-->
+                    @endif
+                   
 
                     <li class="menu-label mt-2">
                         <small class="label-border">
@@ -52,19 +55,13 @@
                         <span>Affichage</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAdvancedUI">
+                        <a class="nav-link" href="/stories">
                             <iconify-icon icon="solar:history-2-bold"
                                           class="menu-icon"></iconify-icon>
                             <span>Historique</span>
                         </a>
                     </li><!--end nav-item-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAdvancedUI">
-                            <iconify-icon icon="solar:check-read-bold"
-                                          class="menu-icon"></iconify-icon>
-                            <span>Validations</span>
-                        </a>
-                    </li><!--end nav-item-->
+                    @if (Auth::user()->role == "ADMIN")
                     <li class="menu-label mt-2">
                         <small class="label-border">
                             <div class="border_left hidden-xs"></div>
@@ -78,6 +75,7 @@
                             <span>Paramètres</span>
                         </a>
                     </li><!--end nav-item-->
+                    @endif
                 </ul><!--end navbar-nav--->
             </div>
         </div><!--end startbar-collapse-->
