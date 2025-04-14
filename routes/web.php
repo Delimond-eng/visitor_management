@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
@@ -20,9 +21,10 @@ Auth::routes();
 
 Route::middleware("auth")->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name("home");
-    Route::view("/visits", "visits")->name("visits");
+    Route::get("/visits", [AppController::class, "allVisits"])->name("visits");
     Route::get("/configs", [ConfigController::class, "showConfigs"])->name("configs");
     Route::get("/users_manage", [UserController::class, "showAllUsers"])->name("users_manage");
     Route::post("/user_create", [UserController::class, "createUser"])->name("user_create");
+    Route::post("/visit_create", [AppController::class, "saveVisit"])->name(name: "visit.create");
 });
 

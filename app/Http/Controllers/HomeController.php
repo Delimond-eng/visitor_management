@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Visit;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $dailyVisits = Visit::with("histories")->paginate(10);
+        return view('dashboard', [
+            "visits"=>$dailyVisits
+        ]);
     }
 }

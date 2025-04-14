@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="" name="author" />
+    <meta content="{{ csrf_token() }}" name="csrf-token">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
@@ -42,10 +43,6 @@
 <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/libs/simplebar/simplebar.min.js"></script>
 <script src="assets/libs/iconify-icon/iconify-icon.min.js"></script>
-<script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-<script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-<script src="assets/libs/jsvectormap/maps/world.js"></script>
-<script src="assets/js/pages/analytics-reports.init.js"></script>
 <script src="assets/js/app.js"></script>
 @stack("scripts")
 </body>

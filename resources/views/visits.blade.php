@@ -1,4 +1,18 @@
+@php
+if (!function_exists('getStatusBadgeClass')) {
+function getStatusBadgeClass($status) {
+    return match($status) {
+    'Pending' => 'text-warning border border-warning',
+    'Approved' => 'text-primary border border-primary',
+    'Completed' => 'text-success border border-success',
+    default => 'text-muted border border-secondary',
+    };
+}
+}
+@endphp
+
 @extends("layouts.admin")
+
 
 
 @section("content")
@@ -179,403 +193,77 @@
 
                             <div class="table-responsive">
                                 <table class="table mb-0 checkbox-all" id="datatable_1">
-                                    <thead class="table-light">
+                                    <thead>
                                         <tr>
-                                            <th style="width: 16px;">
-                                                <div class="form-check mb-0 ms-n1">
-                                                    <input type="checkbox" class="form-check-input"
-                                                        name="select-all" id="select-all">
-                                                </div>
-                                            </th>
-                                            <th class="ps-0">Customer</th>
+                                            <th>Visiteur</th>
+                                            <th>Motif</th>
                                             <th>Email</th>
-                                            <th>Phone No</th>
+                                            <th>Téléphone</th>
+                                            <th>Heure E.</th>
+                                            <th>Heure S</th>
+                                            <th>Durée</th>
+                                            <th>Ese | Adresse</th>
                                             <th>Status</th>
-                                            <th>Source</th>
                                             <th class="text-end">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($visits as $visit)
                                         <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck1">
-                                                </div>
+                                            <td>
+                                                <img src="{{ asset($visit->picture_url ?? 'assets/images/users/default-avatar.png') }}"
+                                                    alt="" class="thumb-sm rounded me-2 d-inline-block">
+                                                {{ $visit->full_name }}
                                             </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-2.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Andy Timmons</span>
-                                                </p>
+                                            <td>{{ $visit->purpose ?? '-' }}</td>
+                                            <td>{{ $visit->email_address ?? '-' }}</td>
+                                            <td>{{ $visit->contact_number ?? '-' }}</td>
+                                            <td>{{ $visit->time_in ?? '-' }}</td>
+                                            <td>{{ $visit->time_out ?? '-' }}</td>
+                                            <td>{{ $visit->stay_time ?? '-' }}</td>
+                                            <td>{{ $visit->company_or_address ?? '-' }}</td>
+                                            <td>
+                                                <span class="badge {{ getStatusBadgeClass($visit->status) }} px-2">
+                                                    {{ ucfirst($visit->status) ?? 'Inconnu' }}
+                                                </span>
                                             </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">dummy@dummy.com</a>
-                                            </td>
-                                            <td>(+1) 123 456 789</td>
-                                            <td><span
-                                                    class="badge bg-secondary-subtle text-secondary">Inactive</span>
-                                            </td>
-                                            <td>Direct</td>
                                             <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
+                                                <a href="#"
+                                                    class="btn btn-outline-info btn-sm btn-edit-visit rounded-pill shadow-none"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#visit-create-modal"
+                                                    data-id="{{ $visit->id }}"
+                                                    data-full_name="{{ $visit->full_name }}"
+                                                    data-company_or_address="{{ $visit->company_or_address }}"
+                                                    data-department="{{ $visit->department }}"
+                                                    data-contact_number="{{ $visit->contact_number }}"
+                                                    data-email_address="{{ $visit->email_address }}"
+                                                    data-id_proof_type="{{ $visit->id_proof_type }}"
+                                                    data-id_proof_number="{{ $visit->id_proof_number }}"
+                                                    data-visitor_type="{{ $visit->visitor_type }}"
+                                                    data-vehicle_number="{{ $visit->vehicle_number }}"
+                                                    data-purpose="{{ $visit->purpose }}"
+                                                    data-time_in="{{ $visit->time_in }}"
+                                                    data-time_out="{{ $visit->time_out }}"
+                                                    data-stay_time="{{ $visit->stay_time}}"
+                                                    data-status="{{ $visit->status }}"
+                                                    data-pass_number="{{ $visit->pass_number }}"
+                                                    data-hostname="{{ $visit->hostname }}"
+                                                    data-entry_authorized_by="{{ $visit->entry_authorized_by }}"
+                                                    data-remarks="{{ $visit->remarks }}"
+                                                    data-picture_url="{{ asset($visit->picture_url ?? 'assets/images/users/default-avatar.png') }}"
+                                                    title="Éditer">
+                                                    <i class="iconoir-edit"></i>
+                                                </a>
+                                                <button type="submit" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
+                                                    <i class="icofont-ui-delete"></i>
+                                                </button>
+                                                <button type="submit" class="btn btn-outline-primary rounded-pill btn-sm  shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Historique">
+                                                    <i class="fa fa-clock-rotate-left"></i>
+                                                </button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck2">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-3.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Jeff Beck</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">fake@dummy.com</a>
-                                            </td>
-                                            <td>(+2) 234 567 890</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Direct</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck3">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-4.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Vince Nelson</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">exemple@dummy.com</a>
-                                            </td>
-                                            <td>(+3) 123 456 789</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Social</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck4">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-5.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">David Gilmour</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">only@dummy.com</a>
-                                            </td>
-                                            <td>(+4) 123 456 789</td>
-                                            <td><span
-                                                    class="badge bg-secondary-subtle text-secondary">Inactive</span>
-                                            </td>
-                                            <td>Website</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck5">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-6.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Dianna Smiley</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">dummy@exemple.com</a>
-                                            </td>
-                                            <td>(+5) 123 456 789</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Social</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck6">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-7.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Adolfo Hess</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">dummy2dummay@dummy.com</a>
-                                            </td>
-                                            <td>(+6) 123 456 789</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Direct</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck7">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-8.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">James Ahern</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">dummy10@dummy.com</a>
-                                            </td>
-                                            <td>(+7) 123 456 789</td>
-                                            <td><span class="badge bg-blue-subtle text-blue me-1">New</span><span
-                                                    class="badge bg-success-subtle text-success">Active</span></td>
-                                            <td>Website</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck8">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-9.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Simon Young</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">totaldummy@dummy.com</a>
-                                            </td>
-                                            <td>(+8) 123 456 789</td>
-                                            <td><span
-                                                    class="badge bg-secondary-subtle text-secondary">Inactive</span>
-                                            </td>
-                                            <td>Direct</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck9">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-10.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Robert Lewis</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">Exemple@dummy.com</a>
-                                            </td>
-                                            <td>(+9) 123 456 789</td>
-                                            <td><span
-                                                    class="badge bg-secondary-subtle text-secondary">Inactive</span>
-                                            </td>
-                                            <td>Social</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck10">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Erik Brim</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">onlyfake@dummy.com</a>
-                                            </td>
-                                            <td>(+10) 123 456 789</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Direct</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck11">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-5.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Kevin Powers</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">exemple@exe.com</a>
-                                            </td>
-                                            <td>(+11) 123 456 789</td>
-                                            <td><span class="badge bg-blue-subtle text-blue">Repeat</span></td>
-                                            <td>Website</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck12">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-3.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Wendy Keen</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">Exemple@dummy.com</a>
-                                            </td>
-                                            <td>(+12) 123 456 789</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Direct</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 16px;">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="check"
-                                                        id="customCheck13">
-                                                </div>
-                                            </td>
-                                            <td class="ps-0">
-                                                <img src="assets/images/users/avatar-1.jpg" alt=""
-                                                    class="thumb-sm d-inline rounded me-2">
-                                                <p class="d-inline-block align-middle mb-0">
-                                                    <span class="font-13 fw-medium">Wendy Keen</span>
-                                                </p>
-                                            </td>
-                                            <td><a href="#"
-                                                    class="d-inline-block align-middle mb-0 text-body">Exemple@dummy.com</a>
-                                            </td>
-                                            <td>(+13) 123 456 789</td>
-                                            <td><span class="badge bg-success-subtle text-success">Active</span>
-                                            </td>
-                                            <td>Website</td>
-                                            <td class="text-end">
-                                                <a href="#"><i
-                                                        class="las la-info-circle text-secondary fs-18"></i></a>
-                                                <a href="#"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                <a href="#"><i
-                                                        class="las la-trash-alt text-secondary fs-18"></i></a>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

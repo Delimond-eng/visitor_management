@@ -38,17 +38,20 @@ class AppController extends Controller
             'company_or_address' => 'nullable|string|max:255',
             'contact_number' => 'nullable|string|max:50',
             'email_address' => 'nullable|email|max:255',
+            'visitor_type' => 'nullable|string|max:255',
             'id_proof_type' => 'nullable|string|max:50',
             'id_proof_number' => 'nullable|string|max:100',
             'vehicle_number' => 'nullable|string|max:50',
+            'department' => 'nullable|string|max:50',
             'purpose' => 'required|string|max:255',
             'time_in' => 'required|date_format:H:i',
             'time_out' => 'nullable|date_format:H:i',
             'entry_authorized_by' => 'nullable|string|max:255',
             'pass_number' => 'nullable|string|max:50',
+            'hostname' => 'nullable|string|max:255',
             'status' => 'nullable|string|max:50',
             'remarks' => 'nullable|string|max:500',
-            'picture_url' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
+            'picture_url' => 'nullable|file|mimes:jpg,jpeg,png'
         ]);
 
         if ($validator->fails()) {
@@ -63,14 +66,17 @@ class AppController extends Controller
                 'company_or_address',
                 'contact_number',
                 'email_address',
+                'visitor_type',
                 'id_proof_type',
                 'id_proof_number',
                 'vehicle_number',
+                'department',
                 'purpose',
                 'time_in',
                 'time_out',
                 'entry_authorized_by',
                 'pass_number',
+                'hostname',
                 'status',
                 'remarks'
             ]);
@@ -146,6 +152,13 @@ class AppController extends Controller
             DB::rollback();
             return response()->json(['error' => 'Erreur lors de l\'enregistrement : ' . $e->getMessage()], 500);
         }
+    }
+
+    public function allVisits(){
+        $visits = Visit::with("histories")->get();
+        return view("visits", [
+            "visits"=>$visits
+        ]);
     }
 
 
