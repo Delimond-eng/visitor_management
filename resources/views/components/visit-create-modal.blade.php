@@ -126,7 +126,7 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label text-dark">Numéro carte de visite <sup class="text-danger">*</sup></label>
+                        <label class="form-label text-dark">Numéro Badge de viste <sup class="text-danger">*</sup></label>
                         <input type="text" class="form-control border-dark" name="pass_number">
                     </div>
                     <div class="col-md-6">
@@ -170,7 +170,6 @@
             initFlatpickr();
             triggerUploadAndCapture();
             triggerSubmit();
-            
         });
         setTimeout(()=>{
                 triggerEdit();
@@ -178,19 +177,19 @@
 
         function initFlatpickr() {
             // Détruire d'abord les anciennes instances si elles existent
-            if (timeInPicker) timeInPicker.destroy();
-            if (timeOutPicker) timeOutPicker.destroy();
+            /* if (timeInPicker) timeInPicker.destroy();
+            if (timeOutPicker) timeOutPicker.destroy(); */
 
             // Recréer les instances
-            timeInPicker = flatpickr("#time-in", {
+           flatpickr("#time-in", {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true,
-                defaultDate: new Date()
+                defaultDate: null
             });
 
-            timeOutPicker = flatpickr("#time-out", {
+            flatpickr("#time-out", {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
@@ -201,7 +200,6 @@
 
         function triggerUploadAndCapture() {
             document.getElementById('btn-upload').addEventListener('click', () => pictureInput.click());
-
             pictureInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file?.type.startsWith('image/')) {
@@ -303,11 +301,9 @@
                         }
                     } else {
                         console.error(data);
-                        alert('Erreur inconnue. Veuillez réessayer.');
                     }
                 } catch (error) {
                     console.error(error);
-                    alert("Une erreur est survenue lors de l'enregistrement.");
                 }
             });
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Visit;
+use App\Models\VisitHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -56,6 +57,11 @@ class HomeController extends Controller
 
 
     public function getStories(){
-        return view("stories");
+        $histories = VisitHistory::with(['visit', 'user'])
+        ->orderBy('update_timestamp', 'desc')
+        ->get();
+        return view("stories", [
+            "histories"=>$histories
+        ]);
     }
 }

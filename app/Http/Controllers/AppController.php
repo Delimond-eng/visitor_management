@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Visit;
 use App\Models\VisitHistory;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Dompdf\Options;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,20 +48,20 @@ class AppController extends Controller
             'department' => 'nullable|string|max:50',
             'purpose' => 'required|string|max:255',
             'time_in' => 'required|date_format:H:i',
-            'time_out' => 'nullable|date_format:H:i',
+            'time_out' => 'nullable|date_format:H:i|after:time_in',
             'entry_authorized_by' => 'nullable|string|max:255',
             'pass_number' => 'nullable|string|max:50',
             'hostname' => 'nullable|string|max:255',
             'status' => 'nullable|string|max:50',
             'remarks' => 'nullable|string|max:500',
             'picture_url' => 'nullable|file|mimes:jpg,jpeg,png'
+        ], [
+            'time_out.after' => 'L\'heure de sortie invalide !',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
-        DB::beginTransaction();
 
         try {
             $data = $request->only([
@@ -150,20 +153,34 @@ class AppController extends Controller
                 ]);
             }
 
-            DB::commit();
             return response()->json($visit);
         } catch (\Exception $e) {
-            DB::rollback();
             return response()->json(['error' => 'Erreur lors de l\'enregistrement : ' . $e->getMessage()], 500);
         }
     }
 
-    public function allVisits(){
-        $visits = Visit::with("histories")->get();
+    public function allVisits(Request $request)
+    {
+        $req = Visit::with("histories");
+
+        if ($request->started_at || $request->end_date) {
+            $startDate = $request->started_at;
+            $endDate = $request->end_date;
+
+            if ($startDate && !$endDate) {
+                $req->whereDate("visit_date", $startDate);
+            } elseif ($startDate && $endDate) {
+                $req->whereBetween("visit_date", [$startDate, $endDate]);
+            }
+        }
+
+        $visits = $req->get();
+
         return view("visits", [
-            "visits"=>$visits
+            "visits" => $visits
         ]);
     }
+
 
 
     /**
@@ -211,6 +228,14 @@ class AppController extends Controller
         );
     }
 
+    public function triggerDelete(string $table, $val){
+        $field = 'id';
+        $result = DB::table($table)
+            ->where($field, $val)
+            ->delete();
+        return redirect()->back()->with('success', 'Suppression effectuée avec succès.');
+    }
+
 
     /**
      * Get history logs of a specific visit.
@@ -227,7 +252,15 @@ class AppController extends Controller
         );
     }
 
-    public function counts(){
-
+    public function exportToPDF(Request $request){
+        $query = $request->query("day");
+        $l = Visit::with('histories');
+        if(isset($query)){
+            $l->whereDate("visit_date", Carbon::now());
+        }
+        $visits = $l->get();
+        $pdf = Pdf::loadView('exports.visits', compact('visits'))
+          ->setPaper('A4', 'landscape');
+        return $pdf->download('visits.pdf');
     }
 }

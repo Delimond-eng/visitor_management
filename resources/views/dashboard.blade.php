@@ -58,9 +58,12 @@ if (!function_exists('getStatusBadgeClass')) {
                                             <h4 class="card-title">Visites journalières</h4>
                                         </div>
                                         <div class="col-auto">
-                                            <button type="submit" class="btn btn-sm btn-outline-light">
-                                                <i class="icofont-download fs-14 me-1"></i>Excel
-                                            </button>
+                                        
+                                            @if(Auth::user()->hasPermission("Export"))
+                                            <a href="{{ url('/visits.export.pdf?day=1') }}" type="submit" class="btn btn-sm btn-success">
+                                                <i class="fa fa-file-pdf fs-14 me-1"></i>Export PDF
+                                            </a>
+                                            @endif
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#visit-create-modal">
                                                 <i class="fa-solid fa-plus me-1"></i> Nouvelle visite
                                             </button>
@@ -136,9 +139,9 @@ if (!function_exists('getStatusBadgeClass')) {
                                                         </a>
                                                         @endif
                                                         @if (Auth::user()->hasPermission("Delete"))
-                                                        <button type="submit" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
+                                                        <a onclick="return confirm('Etes-vous sûr de vouloir continuer cette opération ???')" href="/delete/visits/{{ $visit->id }}" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
                                                             <i class="icofont-ui-delete"></i>
-                                                        </button>
+                                                        </a>
                                                         @endif
                                                     </td>
                                                 </tr>

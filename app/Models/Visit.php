@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Visit extends Model
 {
     use HasFactory;
-
-
     protected $fillable = [
         'full_name',
         'company_or_address',
@@ -35,6 +33,10 @@ class Visit extends Model
         'picture_url',
         'updated_by',
         'update_timestamp'
+    ];
+
+    protected $casts = [
+        'visit_date' => 'datetime:d/m/Y',
     ];
 
     public function histories(): HasMany

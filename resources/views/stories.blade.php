@@ -30,7 +30,42 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-
+                    <div class="card-body pt-0">
+                        <div class="table-responsive">
+                            <table class="table mb-0 checkbox-all" id="datatable_histories">
+                                <thead>
+                                    <tr>
+                                        <th>Date visite</th>
+                                        <th>Visiteur</th>
+                                        <th>Motif</th>
+                                        <th>Heure Entrée.</th>
+                                        <th>Heure Sortie</th>
+                                        <th>Durée</th>
+                                        <th>Autorisée par</th>
+                                        <th>Créer | Modifier par</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($histories as $story)
+                                    <tr>
+                                        <td>{{ $story->visit->visit_date->format('d/m/y') ?? '-' }}</td>
+                                        <td>
+                                            <img src="{{ asset($story->visit->picture_url ?? 'assets/images/users/avatar-1.jpg') }}"
+                                                alt="" class="thumb-sm rounded me-2 d-inline-block">
+                                            {{ $story->visit->full_name }}
+                                        </td>
+                                        <td>{{ $story->visit->purpose ?? '-' }}</td>
+                                        <td>{{ $story->visit->time_in ?? '-' }}</td>
+                                        <td>{{ $story->visit->time_out ?? '-' }}</td>
+                                        <td>{{ $story->visit->stay_time ?? '-' }}</td>
+                                        <td>{{ $story->visit->entry_authorized_by ?? '-' }}</td>
+                                        <td>{{ $story->user->name ?? '-' }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div><!--end row-->
             </div><!-- container -->
             <div class="endbar-overlay d-print-none"></div>
@@ -43,3 +78,27 @@
     </div>
     <!-- end page-wrapper -->
     @endsection
+
+    @push("styles")
+<link href="assets/libs/simple-datatables/style.css" rel="stylesheet" type="text/css" />
+@endpush
+@push("scripts")
+<script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
+<script>
+    try{
+        const table = new simpleDatatables.DataTable("#datatable_histories", {
+            searchable: !0,
+            fixedHeight: !1,
+            labels: {
+                placeholder: "Recherche...",
+                perPage: "{select} résultats par page",
+                noRows: "Aucune donnée",
+                info: "Page {start} à {end} sur {rows} entrées"
+            }
+        });
+    
+    }catch(e){
+        
+    }
+</script>
+@endpush
