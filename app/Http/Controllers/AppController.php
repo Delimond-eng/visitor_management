@@ -235,6 +235,15 @@ class AppController extends Controller
             ->delete();
         return redirect()->back()->with('success', 'Suppression effectuée avec succès.');
     }
+    public function createConfig(Request $request){
+        if($request->libelle){
+            DB::table($request->table)->updateOrInsert(
+                ['libelle' => $request->libelle], // condition de recherche
+                ['libelle' => $request->libelle]  // données à insérer ou mettre à jour
+            );
+        }
+        return redirect()->back()->with('success', 'Configuration enregistrée avec succès.');
+    }
 
 
     /**

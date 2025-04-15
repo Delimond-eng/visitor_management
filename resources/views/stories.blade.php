@@ -48,11 +48,11 @@
                                 <tbody>
                                     @foreach($histories as $story)
                                     <tr>
-                                        <td>{{ $story->visit->visit_date->format('d/m/y') ?? '-' }}</td>
+                                        <td>{{ isset($story->visit->visit_date) ? $story->visit->visit_date->format("d/m/y | H:i") : '-' }}</td>
                                         <td>
                                             <img src="{{ asset($story->visit->picture_url ?? 'assets/images/users/avatar-1.jpg') }}"
                                                 alt="" class="thumb-sm rounded me-2 d-inline-block">
-                                            {{ $story->visit->full_name }}
+                                            {{ $story->visit->full_name ?? '-' }}
                                         </td>
                                         <td>{{ $story->visit->purpose ?? '-' }}</td>
                                         <td>{{ $story->visit->time_in ?? '-' }}</td>

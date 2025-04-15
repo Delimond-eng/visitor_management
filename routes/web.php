@@ -29,6 +29,7 @@ Route::middleware("auth")->group(function(){
     Route::get("/stories", [HomeController::class, "getStories"])->name(name: "stories");
     Route::get('/visits.export.pdf', [AppController::class, 'exportToPDF'])->name("visits.export.pdf");
     Route::get('/delete/{table}/{val}', [AppController::class, 'triggerDelete'])->name("delete");
+    Route::post('/config.create', [AppController::class, 'createConfig'])->name("config.create");
     Route::get("/visits", [AppController::class, "allVisits"])->name("visits");
 });
 

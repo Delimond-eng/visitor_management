@@ -60,8 +60,16 @@
                                             <td>{{ $user->role }}</td>
                                             <td><span class="badge text-primary border border-primary px-2">{{ $user->permissions->pluck('permission_type')->join(', ') }}</span></td>
                                             <td>
+                                                @if (Auth::user()->hasPermission('Update'))
                                                 <button id="btn-edit" class="btn btn-outline-info btn-sm me-1 shadow-none rounded-pill"><i class="fa fa-pencil-alt"></i></button>
-                                                <button class="btn btn-outline-danger btn-sm shadow-none rounded-pill"><i class="fa fa-trash"></i></button>
+                                                @endif
+                                                @if (Auth::user()->hasPermission('Delete'))
+                                                <form action="{{ route('delete', ['table' => 'users', 'val' => $user->id]) }}" method="GET" style="display: inline;">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm shadow-none rounded-pill" onclick="return confirm('Confirmer la suppression ?')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
@@ -84,15 +92,15 @@
                         <div class="card-body pt-0">
 
                             @if (session('success'))
-                                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
-                                    <div class="d-inline-flex justify-content-center align-items-center thumb-xxs bg-success rounded-circle mx-auto me-1">
-                                        <i class="fas fa-check-double align-self-center mb-0 text-white "></i>
-                                    </div>
-                                    <strong>Succès !</strong> {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+                                <div class="d-inline-flex justify-content-center align-items-center thumb-xxs bg-success rounded-circle mx-auto me-1">
+                                    <i class="fas fa-check-double align-self-center mb-0 text-white "></i>
                                 </div>
+                                <strong>Succès !</strong> {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
                             @endif
-                            
+
                             @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show  border-start border-danger mb-0" role="alert">
                                 <div class="d-flex align-items-center">
@@ -103,7 +111,7 @@
                                         @endforeach
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div><!--end media-body-->
-                                </div>                                       
+                                </div>
                             </div>
                             @endif
                             <form class="form" method="post" action="{{ route("user_create") }}">
@@ -153,7 +161,7 @@
 
 @push("scripts")
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const editButtons = document.querySelectorAll('#btn-edit');
         const form = document.querySelector('.form');
         const btnSubmit = document.getElementById('btn-submit');
@@ -166,7 +174,7 @@
         }
 
         editButtons.forEach((button, index) => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const row = this.closest('tr');
                 const name = row.querySelector('td:nth-child(1)').innerText.trim();
                 const email = row.querySelector('td:nth-child(2)').innerText.trim();
@@ -183,7 +191,7 @@
             });
         });
 
-        btnCancel.addEventListener('click', function () {
+        btnCancel.addEventListener('click', function() {
             resetForm();
         });
     });

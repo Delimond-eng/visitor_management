@@ -147,7 +147,7 @@ if (!function_exists('getStatusBadgeClass')) {
                                                 </tr>
                                                 @empty
                                                 <tr>
-                                                    <td colspan="6" class="text-center text-muted">Aucune visite enregistrée aujourd’hui.</td>
+                                                    <td colspan="12" class="text-center text-muted">Aucune visite enregistrée aujourd’hui.</td>
                                                 </tr>
                                                 @endforelse
                                             </tbody>

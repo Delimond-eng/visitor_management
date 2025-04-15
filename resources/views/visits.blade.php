@@ -1,12 +1,12 @@
 @php
 if (!function_exists('getStatusBadgeClass')) {
 function getStatusBadgeClass($status) {
-    return match($status) {
-    'Pending' => 'text-warning border border-warning',
-    'Approved' => 'text-primary border border-primary',
-    'Completed' => 'text-success border border-success',
-    default => 'text-muted border border-secondary',
-    };
+return match($status) {
+'Pending' => 'text-warning border border-warning',
+'Approved' => 'text-primary border border-primary',
+'Completed' => 'text-success border border-success',
+default => 'text-muted border border-secondary',
+};
 }
 }
 @endphp
@@ -68,7 +68,7 @@ function getStatusBadgeClass($status) {
                             </div><!--end row-->
                         </div><!--end card-header-->
                         <div class="card-body pt-0">
-                            <form method="get" action="{{ route('visits') }}" class="me-2" style="max-width: 400px;" id="form" >
+                            <form method="get" action="{{ route('visits') }}" class="me-2" style="max-width: 400px;" id="form">
                                 @csrf
                                 <div class="input-group" id="DateRange">
                                     <input type="date" name="started_at" class="form-control" placeholder="JJ/MM/AAAA" aria-label="StartDate">
@@ -76,7 +76,7 @@ function getStatusBadgeClass($status) {
                                     <input type="date" name="end_date" class="form-control" placeholder="JJ/MM/AAAA" aria-label="EndDate">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                                 </div>
-                            </form> 
+                            </form>
                             <div class="table-responsive">
                                 <table class="table mb-0 checkbox-all" id="datatable_visits">
                                     <thead>
@@ -146,9 +146,11 @@ function getStatusBadgeClass($status) {
                                                 </a>
                                                 @endif
                                                 @if (Auth::user()->hasPermission("Delete"))
-                                                    <a onclick="return confirm('Etes-vous sûr de vouloir continuer cette opération ???')" href="/delete/visits/{{ $visit->id }}" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
-                                                        <i class="icofont-ui-delete"></i>
-                                                    </a>
+                                                <form action="{{ route('delete', ['table' => 'visits', 'val' => $visit->id]) }}" method="GET" style="display: inline;">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm shadow-none rounded-pill" onclick="return confirm('Confirmer la suppression ?')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
                                                 @endif
                                             </td>
                                         </tr>
@@ -156,8 +158,8 @@ function getStatusBadgeClass($status) {
                                     </tbody>
                                 </table>
                                 @if(Auth::user()->hasPermission("Export"))
-                                    <button type="button" class="btn btn-sm btn-primary csv">Export CSV</button>
-                                    <a href="{{ url('/visits.export.pdf') }}" class="btn btn-sm btn-primary csv">Export PDF</a>
+                                <button type="button" class="btn btn-sm btn-primary csv">Export CSV</button>
+                                <a href="{{ url('/visits.export.pdf') }}" class="btn btn-sm btn-primary csv">Export PDF</a>
                                 @endif
                             </div>
                         </div>
@@ -187,7 +189,7 @@ function getStatusBadgeClass($status) {
 <script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
 <script src="assets/libs/vanillajs-datepicker/js/datepicker-full.min.js"></script>
 <script>
-    try{
+    try {
         const table = new simpleDatatables.DataTable("#datatable_visits", {
             searchable: !0,
             fixedHeight: !1,
@@ -208,15 +210,15 @@ function getStatusBadgeClass($status) {
         });
         const formFilter = document.getElementById("form");
         const dataTableTop = document.querySelector(".dataTable-top .dataTable-search");
-        
-        if (dataTableTop && formFilter){
+
+        if (dataTableTop && formFilter) {
             dataTableTop.insertBefore(formFilter, dataTableTop.firstChild);
             dataTableTop.classList.add("d-flex", "align-items-center", "gap-2");
         }
-       
-    
-    } catch(e){
-        
+
+
+    } catch (e) {
+
     }
 </script>
 @endpush

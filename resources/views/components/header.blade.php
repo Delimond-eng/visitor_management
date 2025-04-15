@@ -15,11 +15,11 @@
             </ul>
             <ul class="topbar-item list-unstyled d-inline-flex align-items-center mb-0">
                 <li class="hide-phone app-search">
-                    <form role="search" action="#" method="get">
+                   <!--  <form role="search" action="#" method="get">
                         <input type="search" name="search" class="form-control top-search mb-0"
                                placeholder="Recherche...">
                         <button type="submit"><i class="iconoir-search"></i></button>
-                    </form>
+                    </form> -->
                 </li>
              
 
@@ -33,12 +33,12 @@
                 <li class="dropdown topbar-item">
                     <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#"
                        role="button" aria-haspopup="false" aria-expanded="false" data-bs-offset="0,19">
-                        <img src="assets/images/users/avatar-2.jpg" alt="" class="thumb-md rounded">
+                        <img src="assets/images/users/avatar-1.jpg" alt="" class="thumb-md rounded">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end py-0">
                         <div class="d-flex align-items-center dropdown-item py-2 bg-secondary-subtle">
                             <div class="flex-shrink-0">
-                                <img src="assets/images/users/avatar-2.jpg" alt="" class="thumb-md rounded-circle">
+                                <img src="assets/images/users/avatar-1.jpg" alt="" class="thumb-md rounded-circle">
                             </div>
                             <div class="flex-grow-1 ms-2 text-truncate align-self-center">
                                 <h6 class="my-0 fw-medium text-dark fs-13">{{ Auth::user()->name }}</h6>
