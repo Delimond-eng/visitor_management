@@ -11,9 +11,12 @@ LOG_LEVEL=debug
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=fiscosar_mosala
-DB_USERNAME=fiscosar_millenium_mosala
-DB_PASSWORD=>q2LD]5sv-L~-J:
+DB_DATABASE=wazadb
+DB_USERNAME=root
+DB_PASSWORD=
+#DB_DATABASE=fiscosar_mosala
+#DB_USERNAME=fiscosar_millenium_mosala
+#DB_PASSWORD=>q2LD]5sv-L~-J:
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file

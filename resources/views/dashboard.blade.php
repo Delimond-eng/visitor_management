@@ -138,10 +138,19 @@ if (!function_exists('getStatusBadgeClass')) {
                                                             <i class="iconoir-edit"></i>
                                                         </a>
                                                         @endif
-                                                        @if (Auth::user()->hasPermission("Delete"))
+                                                        <!-- @if (Auth::user()->hasPermission("Delete"))
                                                         <a onclick="return confirm('Etes-vous sûr de vouloir continuer cette opération ???')" href="/delete/visits/{{ $visit->id }}" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
                                                             <i class="icofont-ui-delete"></i>
                                                         </a>
+                                                        @endif -->
+                                                        @if (Auth::user()->hasPermission("Delete"))
+                                                        <form action="{{ route('delete', ['table' => 'visits', 'val' => $visit->id]) }}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button  onclick="return confirm('Etes-vous sûr de vouloir continuer cette opération ???')" type="submit" class="btn btn-outline-dark rounded-pill btn-sm shadow-none" onclick="return confirm('Confirmer la suppression ?')">
+                                                                <i class="icofont-ui-delete"></i>
+                                                            </button>
+                                                        </form>
                                                         @endif
                                                     </td>
                                                 </tr>

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::middleware("auth")->group(function(){
+Route::middleware(["auth", "logs"])->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name("home");
     Route::get('/counts', [HomeController::class, 'counts'])->name("counts");
     Route::get("/configs", [ConfigController::class, "showConfigs"])->name("configs");
@@ -28,8 +28,27 @@ Route::middleware("auth")->group(function(){
     Route::post("/visit_create", [AppController::class, "saveVisit"])->name(name: "visit.create");
     Route::get("/stories", [HomeController::class, "getStories"])->name(name: "stories");
     Route::get('/visits.export.pdf', [AppController::class, 'exportToPDF'])->name("visits.export.pdf");
-    Route::get('/delete/{table}/{val}', [AppController::class, 'triggerDelete'])->name("delete");
+    Route::delete('/delete/{table}/{val}', [AppController::class, 'triggerDelete'])->name("delete");
     Route::post('/config.create', [AppController::class, 'createConfig'])->name("config.create");
     Route::get("/visits", [AppController::class, "allVisits"])->name("visits");
+    Route::view("/user.logs", "logs")->name("user.logs");
+    Route::get('/logs', function () {
+        $logPath = storage_path('logs/user_actions/user_actions.txt');
+    
+        if (!file_exists($logPath)) {
+            return response()->json([]);
+        }
+        $lines = file($logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $logs = [];
+
+        foreach ($lines as $line) {
+            // Chaque ligne est censée être un JSON
+            $decoded = json_decode($line, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $logs[] = $decoded;
+            }
+        }
+        return response()->json($logs);
+    })->name('logs.json');
 });
 

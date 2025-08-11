@@ -64,7 +64,9 @@
                                                 <button id="btn-edit" class="btn btn-outline-info btn-sm me-1 shadow-none rounded-pill"><i class="fa fa-pencil-alt"></i></button>
                                                 @endif
                                                 @if (Auth::user()->hasPermission('Delete'))
-                                                <form action="{{ route('delete', ['table' => 'users', 'val' => $user->id]) }}" method="GET" style="display: inline;">
+                                                <form action="{{ route('delete', ['table' => 'users', 'val' => $user->id]) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
                                                     <button type="submit" class="btn btn-outline-danger btn-sm shadow-none rounded-pill" onclick="return confirm('Confirmer la suppression ?')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>

@@ -5423,3 +5423,7 @@ ul.listree-submenu-items li a {
 .border-dark {
     border-color: #aab0b9 !important;
 }
+
+.form-label {
+    font-weight: 900 !important;
+}

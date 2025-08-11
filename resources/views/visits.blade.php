@@ -146,7 +146,9 @@ default => 'text-muted border border-secondary',
                                                 </a>
                                                 @endif
                                                 @if (Auth::user()->hasPermission("Delete"))
-                                                <form action="{{ route('delete', ['table' => 'visits', 'val' => $visit->id]) }}" method="GET" style="display: inline;">
+                                                <form action="{{ route('delete', ['table' => 'visits', 'val' => $visit->id]) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
                                                     <button type="submit" class="btn btn-outline-danger btn-sm shadow-none rounded-pill" onclick="return confirm('Confirmer la suppression ?')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>

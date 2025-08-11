@@ -8,10 +8,9 @@
                 <div class="row">
                     <div class="col-lg-4 mx-auto">
                         <div class="card">
-                            <div class="card-body p-0 bg-primary auth-header-box rounded-top">
+                            <div class="card-body p-0 auth-header-box rounded-top">
                                 <div class="text-center p-3">
-                                    <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">CONNEXION</h4>
-                                    <p class="text-white fw-normal fs-10 mb-0">Veuillez vous connecter pour continuer !</p>
+                                    <img style="height: 100px;" class="img-fluid" src="{{ asset("assets/images/logo-tr.png") }}" alt="logo">
                                 </div>
                             </div>
                             <div class="card-body pt-0">

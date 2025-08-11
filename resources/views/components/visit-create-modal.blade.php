@@ -10,7 +10,7 @@
             </div><!--end modal-header-->
             <div class="modal-body p-3">
                 <div class="row g-3">
-                    <input type="text" name="visit_id" hidden>
+                    <input type="text" name="visit_id" data-user="{{ Auth::user()->role }}" hidden>
                     <div class="col-md-10">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -149,6 +149,243 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const openModalBtn = document.querySelector('[data-bs-target="#visit-create-modal"]');
+    const form = document.getElementById("form-create");
+    const modal = document.getElementById('visit-create-modal');
+    const pictureInput = document.getElementById('picture');
+    const preview = document.getElementById('preview');
+    const userRole = form.querySelector('[name="visit_id"]').dataset.user; // Rôle utilisateur
+    let timeInPicker, timeOutPicker;
+
+    openModalBtn.addEventListener("click", function() {
+        form.reset();
+        removePic();
+        const visitIdInput = form.querySelector('[name="visit_id"]');
+        if (visitIdInput) visitIdInput.value = '';
+
+        initFlatpickr();
+        applyRoleRestrictions(); // Création → tous les champs actifs
+    });
+
+    modal.addEventListener('shown.bs.modal', function() {
+        initFlatpickr();
+        triggerUploadAndCapture();
+        triggerSubmit();
+        applyRoleRestrictions();
+    });
+
+    setTimeout(() => {
+        triggerEdit();
+    }, 1000);
+
+    function applyRoleRestrictions() {
+        const visitIdInput = form.querySelector('[name="visit_id"]');
+
+        // Si pas ADMIN et qu'on est en édition
+        if (userRole.toUpperCase() !== "ADMIN" && visitIdInput?.value.trim() !== "") {
+            form.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.name !== "time_out") {
+                    el.readOnly = true;
+                    el.disabled = true;
+                }
+            });
+
+            // time_out reste actif
+            const timeOutInput = form.querySelector('[name="time_out"]');
+            timeOutInput.readOnly = false;
+            timeOutInput.disabled = false;
+
+            // Met l'heure actuelle lors du focus
+            timeOutInput.addEventListener('focus', () => {
+                const now = new Date();
+                const hh = String(now.getHours()).padStart(2, '0');
+                const mm = String(now.getMinutes()).padStart(2, '0');
+                timeOutInput.value = `${hh}:${mm}`;
+            });
+        } 
+        else {
+            // Création ou ADMIN → tout actif
+            form.querySelectorAll('input, select, textarea').forEach(el => {
+                el.readOnly = false;
+                el.disabled = false;
+            });
+        }
+    }
+
+    function initFlatpickr() {
+        let timeIn = document.getElementById("time-in").value;
+
+        flatpickr("#time-in", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            defaultDate: timeIn !== '' ? null : new Date()
+        });
+
+        flatpickr("#time-out", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            defaultDate: null
+        });
+    }
+
+    function triggerUploadAndCapture() {
+        document.getElementById('btn-upload').addEventListener('click', () => pictureInput.click());
+        pictureInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file?.type.startsWith('image/')) {
+                document.getElementById("btn-pic-clear").classList.remove("d-none");
+                const reader = new FileReader();
+                reader.onload = e => {
+                    preview.style.backgroundImage = `url('${e.target.result}')`;
+                    preview.style.backgroundSize = 'cover';
+                    preview.style.backgroundPosition = 'center';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('btn-capture').addEventListener('click', async function() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.autoplay = true;
+                Object.assign(video.style, { width: '100%', height: '100%', objectFit: 'cover' });
+                preview.innerHTML = '';
+                preview.style.backgroundImage = '';
+                preview.appendChild(video);
+
+                const captureBtn = document.createElement('button');
+                captureBtn.className = 'btn btn-sm btn-danger position-absolute mt-2';
+                captureBtn.style.zIndex = 10;
+                captureBtn.innerText = 'Prendre la photo';
+                preview.appendChild(captureBtn);
+
+                captureBtn.addEventListener('click', function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0);
+
+                    const imageData = canvas.toDataURL('image/png');
+                    stream.getTracks().forEach(track => track.stop());
+                    preview.innerHTML = '';
+                    preview.style.backgroundImage = `url('${imageData}')`;
+
+                    fetch(imageData).then(res => res.blob()).then(blob => {
+                        const file = new File([blob], 'capture.png', { type: 'image/png' });
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        pictureInput.files = dataTransfer.files;
+                    });
+                });
+            } catch (error) {
+                alert('Impossible d\'accéder à la caméra : ' + error.message);
+            }
+        });
+    }
+
+    function triggerSubmit() {
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            modal.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            modal.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch("{{ route('visit.create') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    bootstrap.Modal.getInstance(modal).hide();
+                    form.reset();
+                    removePic();
+                    location.reload();
+                } else if (response.status === 422) {
+                    for (const [field, messages] of Object.entries(data)) {
+                        const fieldEl = modal.querySelector(`[name="${field}"]`);
+                        if (fieldEl) {
+                            fieldEl.classList.add('is-invalid');
+                            const errorMsg = document.createElement('div');
+                            errorMsg.className = 'invalid-feedback';
+                            errorMsg.innerText = messages[0];
+                            fieldEl.parentNode.appendChild(errorMsg);
+                        }
+                    }
+                } else {
+                    console.error(data);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function triggerEdit() {
+        const preview = document.getElementById('preview');
+        document.querySelectorAll(".btn-edit-visit").forEach(button => {
+            button.addEventListener("click", function() {
+                const fields = {
+                    full_name: 'full_name',
+                    company_or_address: 'company_or_address',
+                    department: 'department',
+                    contact_number: 'contact_number',
+                    email_address: 'email_address',
+                    visitor_type: 'visitor_type',
+                    id_proof_type: 'id_proof_type',
+                    id_proof_number: 'id_proof_number',
+                    vehicle_number: 'vehicle_number',
+                    purpose: 'purpose',
+                    time_in: 'time_in',
+                    time_out: 'time_out',
+                    stay_time: 'stay_time',
+                    status: 'status',
+                    pass_number: 'pass_number',
+                    hostname: 'hostname',
+                    entry_authorized_by: 'entry_authorized_by',
+                    remarks: 'remarks'
+                };
+
+                for (const [dataKey, fieldName] of Object.entries(fields)) {
+                    const field = form.querySelector(`[name="${fieldName}"]`);
+                    if (field) field.value = this.dataset[dataKey] || '';
+                }
+
+                const visitIdInput = form.querySelector('[name="visit_id"]');
+                if (visitIdInput) visitIdInput.value = this.dataset.id || '';
+
+                preview.style.backgroundImage = `url('${this.dataset.picture_url}')`;
+                preview.style.backgroundSize = 'cover';
+                preview.style.backgroundPosition = 'center';
+                document.getElementById("btn-pic-clear").classList.remove("d-none");
+
+                applyRoleRestrictions(); // Applique restrictions seulement en édition
+            });
+        });
+    }
+
+    function removePic() {
+        document.getElementById("btn-pic-clear").classList.add("d-none");
+        pictureInput.value = '';
+        preview.style.backgroundImage = '';
+    }
+});
+</script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         const openModalBtn = document.querySelector('[data-bs-target="#visit-create-modal"]');
         const form = document.getElementById("form-create");
@@ -180,13 +417,15 @@
             /* if (timeInPicker) timeInPicker.destroy();
             if (timeOutPicker) timeOutPicker.destroy(); */
 
+            let timeIn = document.getElementById("time-in").value;
+
             // Recréer les instances
            flatpickr("#time-in", {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true,
-                defaultDate: null
+                defaultDate: timeIn !== '' ?  null : new Date()
             });
 
             flatpickr("#time-out", {
@@ -355,5 +594,5 @@
             preview.style.backgroundImage = '';
         }
     });
-</script>
+</script> -->
 @endpush

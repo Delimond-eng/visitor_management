@@ -1,13 +1,13 @@
 <div class="startbar d-print-none">
     <!--start brand-->
     <div class="brand">
-        <a href="#" class="logo">
+        <a href="#" class="logo mt-5">
             <span>
-                <img src="assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
+                <img src="assets/images/favicon.png" alt="logo-small" class="logo-sm">
             </span>
             <span class="">
-                <img src="assets/images/logo.png" style="width: 210px;" alt="logo-large" class=" logo-light">
-                <img src="assets/images/logo.png" style="width: 210px;" alt="logo-large" class="logo-lg logo-dark">
+                <img src="assets/images/logo.jpg" style="width: 230px" alt="logo-large" class="logo-light rounded">
+                <img src="assets/images/logo.jpg" style="width: 230px" alt="logo-large" class="logo-lg logo-dark rounded">
             </span>
         </a>
     </div>
@@ -18,7 +18,7 @@
             <div class="d-flex align-items-start flex-column w-100">
                 <!-- Navigation -->
                 <ul class="navbar-nav mb-auto w-100">
-                    <li class="menu-label mt-2">
+                    <li class="menu-label mt-5">
                         <span>Navigation</span>
                     </li>
 
@@ -73,6 +73,12 @@
                         <a class="nav-link {{ Route::is("configs") ? 'active' : '' }}" href="{{ url("/configs") }}">
                             <iconify-icon icon="solar:settings-minimalistic-broken" class="menu-icon"></iconify-icon>
                             <span>Paramètres</span>
+                        </a>
+                    </li><!--end nav-item-->
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is("user.logs") ? 'active' : '' }}" href="{{ url("/user.logs") }}">
+                            <iconify-icon icon="solar:history-bold" class="menu-icon"></iconify-icon>
+                            <span>Actions utilisateurs</span>
                         </a>
                     </li><!--end nav-item-->
                     @endif

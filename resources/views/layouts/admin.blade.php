@@ -3,15 +3,15 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Visitors management | {{Route::currentRouteName() }}</title>
+    <title>WazaIT | {{Route::currentRouteName() }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="WazaIT" name="description" />
     <meta content="" name="author" />
     <meta content="{{ csrf_token() }}" name="csrf-token">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="assets/images/favicon.png">
     <link href="assets/libs/vanillajs-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css" />
     <!-- App css -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
