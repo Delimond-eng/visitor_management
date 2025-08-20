@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id'); // Référence vers l’utilisateur
             $table->enum('permission_type', ['Update', 'Delete', 'Export']); // Type de permission accordée
             $table->boolean('enabled')->default(false); // Permission activée ou non
+            $table->foreignId("account_id")->constrained("accounts", "id")->cascadeOnDelete();
             $table->timestamps(); // created_at et updated_at
         });
     }

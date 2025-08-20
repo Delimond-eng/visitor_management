@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('visitor_types', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string("libelle");
+            $table->string("name");
+            $table->string("address")->nullable();
+            $table->string("phone")->nullable();
             $table->string("status")->default("actif");
-            $table->foreignId("account_id")->constrained("accounts", "id")->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visitor_types');
+        Schema::dropIfExists('accounts');
     }
 };

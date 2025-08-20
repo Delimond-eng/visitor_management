@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by'); // Utilisateur ayant effectué la modification
             $table->timestamp('update_timestamp')->useCurrent(); // Date/heure de la modification
             $table->json('changes'); // Détails des modifications sous forme JSON
+            $table->foreignId("account_id")->constrained("accounts", "id")->cascadeOnDelete();
             $table->timestamps(); // created_at et updated_at
         });
     }

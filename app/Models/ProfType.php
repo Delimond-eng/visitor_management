@@ -11,5 +11,6 @@ class ProfType extends Model
 
     protected $fillable = [
         'libelle',
+        'account_id',
     ];
 }

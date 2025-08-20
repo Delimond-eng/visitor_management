@@ -11,5 +11,6 @@ class VisitorType extends Model
 
     protected $fillable = [
         'libelle',
+        'account_id'
     ];
 }

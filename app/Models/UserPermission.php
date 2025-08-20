@@ -14,7 +14,8 @@ class UserPermission extends Model
     protected $fillable = [
         'user_id',
         'permission_type',
-        'enabled'
+        'enabled',
+        'account_id'
     ];
 
     public function user(): BelongsTo

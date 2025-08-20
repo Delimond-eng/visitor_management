@@ -15,7 +15,8 @@ class VisitHistory extends Model
         'visit_id',
         'updated_by',
         'update_timestamp',
-        'changes'
+        'changes',
+        'account_id'
     ];
 
     protected $casts = [

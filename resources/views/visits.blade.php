@@ -116,7 +116,7 @@ default => 'text-muted border border-secondary',
                                                 </span>
                                             </td>
                                             <td class="text-end">
-                                                @if (Auth::user()->hasPermission("Update"))
+                                                @if (Auth::user()->hasPermission("Update") && $visit->status !== 'Completed')
                                                 <a href="#"
                                                     class="btn btn-outline-info btn-sm btn-edit-visit rounded-pill shadow-none"
                                                     data-bs-toggle="modal"

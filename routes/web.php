@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\HomeController;
@@ -17,8 +18,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post("/account.create", [AccountController::class, "createAccount"])->name("account.create");
+
+//Auth Routes
 Auth::routes();
 
+//Route protected by auth middleware
 Route::middleware(["auth", "logs"])->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name("home");
     Route::get('/counts', [HomeController::class, 'counts'])->name("counts");

@@ -32,7 +32,8 @@ class Visit extends Model
         'remarks',
         'picture_url',
         'updated_by',
-        'update_timestamp'
+        'update_timestamp',
+        'account_id'
     ];
 
     protected $casts = [
