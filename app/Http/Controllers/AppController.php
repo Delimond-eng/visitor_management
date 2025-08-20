@@ -98,8 +98,8 @@ class AppController extends Controller
 
             // Calcul automatique du stay_time si possible
             if (!empty($request->time_in) && !empty($request->time_out)) {
-                $timeIn = \Carbon\Carbon::createFromFormat('H:i', $request->time_in);
-                $timeOut = \Carbon\Carbon::createFromFormat('H:i', $request->time_out);
+                $timeIn = Carbon::createFromFormat('H:i', $request->time_in);
+                $timeOut = Carbon::createFromFormat('H:i', $request->time_out);
 
                 if ($timeOut->greaterThan($timeIn)) {
                     $diff = $timeIn->diff($timeOut);
@@ -115,10 +115,10 @@ class AppController extends Controller
 
             // On récupère l'ancienne visite si elle existe (avant l'update)
             $oldVisit = $request->visit_id ? Visit::find($request->visit_id) : null;
-
+            $data["account_id"]=Auth::user()->account_id;
             // Création ou mise à jour
             $visit = Visit::updateOrCreate(
-                ['id' => $request->visit_id],
+                ['id' => $request->visit_id,],
                 $data
             );
 
@@ -149,6 +149,7 @@ class AppController extends Controller
                     'visit_id' => $visit->id,
                     'updated_by' => $data['updated_by'],
                     'update_timestamp' => $data['update_timestamp'],
+                    'account_id'=> Auth::user()->account_id,
                     'changes' => json_encode($changes, JSON_PRETTY_PRINT),
                 ]);
             }
@@ -173,6 +174,8 @@ class AppController extends Controller
                 $req->whereBetween("visit_date", [$startDate, $endDate]);
             }
         }
+
+        $req->where("account_id", Auth::user()->account_id);
 
         $visits = $req->get();
 
@@ -205,9 +208,6 @@ class AppController extends Controller
         return response()->json(Visit::with('visitor')->get());
     }
 
-
-
-
     // ===============================
     // AFFICHAGES SPÉCIFIQUES
     // ===============================
@@ -239,7 +239,10 @@ class AppController extends Controller
         if($request->libelle){
             DB::table($request->table)->updateOrInsert(
                 ['libelle' => $request->libelle], // condition de recherche
-                ['libelle' => $request->libelle]  // données à insérer ou mettre à jour
+                [
+                    'libelle' => $request->libelle,
+                    'account_id'=> Auth::user()->account_id,
+                ],  // données à insérer ou mettre à jour
             );
         }
         return redirect()->back()->with('success', 'Configuration enregistrée avec succès.');

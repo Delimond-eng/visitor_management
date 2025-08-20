@@ -48,7 +48,8 @@
                                     <div class="form-group mb-0 row">
                                         <div class="col-12">
                                             <div class="d-grid mt-3">
-                                                <button class="btn btn-primary" type="submit">Connecter <i class="fas fa-sign-in-alt ms-1"></i></button>
+                                                <button class="btn btn-primary" type="submit"><i class="fas fa-sign-in-alt me-2"></i>Connecter</button>
+                                                <a href="{{ route("register") }}" class="mt-2 text-center text-decoration-underline">Créer un compte</a>
                                             </div>
                                         </div><!--end col-->
                                     </div> <!--end form-group-->

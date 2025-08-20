@@ -7,6 +7,7 @@ use App\Models\Visit;
 use App\Models\VisitHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -30,7 +31,7 @@ class HomeController extends Controller
         
         $dailyVisits = Visit::with('histories')
                         ->whereDate('visit_date', Carbon::now())
-                        ->orderBy('time_in')
+                        ->orderBy('time_in')->where("account_id", Auth::user())
                         ->paginate(10);
         return view('dashboard', [
             "visits"=>$dailyVisits
@@ -38,12 +39,12 @@ class HomeController extends Controller
     }
 
     public function counts(){
-        $dailyVisitCount  = Visit::whereDate('visit_date', Carbon::now())
+        $dailyVisitCount  = Visit::whereDate('visit_date', Carbon::now())->where("account_id", Auth::user()->account_id)
                         ->count();
-        $activeVisitor = Visit::whereDate("visit_date", Carbon::now())
+        $activeVisitor = Visit::whereDate("visit_date", Carbon::now())->where("account_id", Auth::user()->account_id)
                             ->where("time_out", null)->count();
-        $allVisits = Visit::count();
-        $allUsers = User::count();
+        $allVisits = Visit::where("account_id", Auth::user()->account_id)->count();
+        $allUsers = User::where("account_id", Auth::user()->account_id)->count();
 
         return response()->json([
             "count"=>[
@@ -58,6 +59,7 @@ class HomeController extends Controller
 
     public function getStories(){
         $histories = VisitHistory::with(['visit', 'user'])
+        ->where("account_id", Auth::user()->account_id)
         ->orderBy('update_timestamp', 'desc')
         ->get();
         return view("stories", [

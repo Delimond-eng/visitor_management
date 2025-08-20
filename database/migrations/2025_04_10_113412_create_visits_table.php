@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('picture_url')->nullable(); // URL vers la photo du visiteur
             $table->unsignedBigInteger('updated_by'); // Nom ou ID de la personne ayant mis à jour l’entrée
             $table->timestamp('update_timestamp')->useCurrent(); // Horodatage de mise à jour (auto)
-            $table->foreignId("account_id")->constrained("accounts", "id")->cascadeOnDelete();
+            $table->unsignedBigInteger("account_id");
             $table->timestamps(); // created_at et updated_at
         });
     }

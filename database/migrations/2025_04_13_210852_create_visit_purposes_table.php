@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("libelle");
             $table->string("status")->default("actif");
-            $table->foreignId("account_id")->constrained("accounts", "id")->cascadeOnDelete();
+            $table->unsignedBigInteger("account_id");
             $table->timestamps();
         });
     }

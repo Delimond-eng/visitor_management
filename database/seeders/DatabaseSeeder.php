@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Account;
 use App\Models\Department;
 use App\Models\ProfType;
 use App\Models\UserPermission;
@@ -26,11 +27,17 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $account = Account::create([
+            "name"=>"Millenium Horizon",
+            "address"=>"03, Bismarck, Gombe Kinshasa",
+            "phone"=>"0813719988"
+        ]);
         $user = \App\Models\User::create([
             "name"=>"Mr. Didier ",
             "email"=>"admin@gmail.com",
             "password"=>bcrypt("12345"),
-            "role"=>"ADMIN"
+            "role"=>"ADMIN",
+            "account_id"=>$account->id
         ]);
         if($user){
             if ($user->role === 'ADMIN') {
@@ -39,6 +46,7 @@ class DatabaseSeeder extends Seeder
                         'user_id' => $user->id,
                         'permission_type' => $type,
                         'enabled' => true,
+                        "account_id"=>$account->id
                     ]);
                 }
             }
@@ -56,7 +64,7 @@ class DatabaseSeeder extends Seeder
             "Consultation",
             "Formation",
         ] as $purpose){
-            VisitPurpose::create(["libelle"=>$purpose]);
+            VisitPurpose::create(["libelle"=>$purpose, "account_id"=>$account->id]);
         }
 
         foreach([
@@ -70,7 +78,7 @@ class DatabaseSeeder extends Seeder
             "Maintenance",
             "Opérations"
         ] as $dpt){
-            Department::create(["libelle"=>$dpt]);
+            Department::create(["libelle"=>$dpt, "account_id"=>$account->id]);
         }
 
         foreach([
@@ -83,7 +91,7 @@ class DatabaseSeeder extends Seeder
             "Auditeur",
             "Employé",
         ] as $vtype){
-            VisitorType::create(["libelle"=>$vtype]);
+            VisitorType::create(["libelle"=>$vtype,"account_id"=>$account->id]);
         }
 
         foreach([
@@ -92,7 +100,7 @@ class DatabaseSeeder extends Seeder
             "Carte de Service",
             "Passeport"
         ] as $profType){
-            ProfType::create(["libelle"=>$profType]);
+            ProfType::create(["libelle"=>$profType, "account_id"=>$account->id]);
         }
     }
 }

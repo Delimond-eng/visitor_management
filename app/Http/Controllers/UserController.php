@@ -7,6 +7,7 @@ use App\Models\UserPermission;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -41,6 +42,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
             'role' => $validated['role'],
+            'account_id'=>Auth::user()->account_id
         ]);
 
         // Vérification des permissions de l'utilisateur en fonction de son rôle
@@ -54,6 +56,7 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'permission_type' => $permissionType,
                 'enabled' => true,
+                'account_id'=>Auth::user()->account_id
             ]);
         }
 
