@@ -49,7 +49,7 @@
                                         <div class="col-12">
                                             <div class="d-grid mt-3">
                                                 <button class="btn btn-primary" type="submit"><i class="fas fa-sign-in-alt me-2"></i>Connecter</button>
-                                                <a href="{{ route("register") }}" class="mt-2 text-center text-decoration-underline">Créer un compte</a>
+                                                <a href="{{ route("register") }}" class="mt-2 btn btn-outline-primary shadow-none"><i class="fas fa-user-plus me-2"></i> Créer un compte</a>
                                             </div>
                                         </div><!--end col-->
                                     </div> <!--end form-group-->

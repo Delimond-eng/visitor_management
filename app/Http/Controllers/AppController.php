@@ -116,6 +116,7 @@ class AppController extends Controller
             // On récupère l'ancienne visite si elle existe (avant l'update)
             $oldVisit = $request->visit_id ? Visit::find($request->visit_id) : null;
             $data["account_id"]=Auth::user()->account_id;
+            $data["visit_date"] = Carbon::now(tz:"Africa/Kinshasa");
             // Création ou mise à jour
             $visit = Visit::updateOrCreate(
                 ['id' => $request->visit_id,],

@@ -62,7 +62,7 @@
 
                                     <div class="d-grid mt-3">
                                         <button class="btn btn-primary" type="submit"><i class="fas fa-user-plus me-2"></i> Créer un compte</button>
-                                        <a href="{{ route("login") }}" class="mt-2 text-center text-decoration-underline">Vous connecter</a>
+                                        <a href="{{ route("login") }}" class="mt-2 btn btn-outline-primary shadow-none"><i class="fas fa-sign-in me-2"></i>Vous connecter</a>
                                     </div>
                                 </form>
                             </div>

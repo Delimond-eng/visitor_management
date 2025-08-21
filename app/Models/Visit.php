@@ -33,7 +33,8 @@ class Visit extends Model
         'picture_url',
         'updated_by',
         'update_timestamp',
-        'account_id'
+        'account_id',
+        'visit_date'
     ];
 
     protected $casts = [

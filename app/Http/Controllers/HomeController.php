@@ -30,8 +30,8 @@ class HomeController extends Controller
     {
         
         $dailyVisits = Visit::with('histories')
-                        ->whereDate('visit_date', Carbon::now())
-                        ->orderBy('time_in')->where("account_id", Auth::user())
+                        ->whereDate('visit_date', Carbon::today())
+                        ->orderBy('time_in')->where("account_id", Auth::user()->account_id)
                         ->paginate(10);
         return view('dashboard', [
             "visits"=>$dailyVisits
@@ -39,9 +39,9 @@ class HomeController extends Controller
     }
 
     public function counts(){
-        $dailyVisitCount  = Visit::whereDate('visit_date', Carbon::now())->where("account_id", Auth::user()->account_id)
+        $dailyVisitCount  = Visit::whereDate('visit_date', Carbon::today(tz:"Africa/Kinshasa"))->where("account_id", Auth::user()->account_id)
                         ->count();
-        $activeVisitor = Visit::whereDate("visit_date", Carbon::now())->where("account_id", Auth::user()->account_id)
+        $activeVisitor = Visit::whereDate("visit_date", Carbon::now(tz:"Africa/Kinshasa"))->where("account_id", Auth::user()->account_id)
                             ->where("time_out", null)->count();
         $allVisits = Visit::where("account_id", Auth::user()->account_id)->count();
         $allUsers = User::where("account_id", Auth::user()->account_id)->count();
